@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="resources/eureka-network-library-version-1-revision-3(UDP).jar"/>
+	<classpathentry kind="lib" path="resources/eureka-security-library-revision-5.jar"/>
+	<classpathentry kind="lib" path="resources/eureka-utils-library-revision-4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/eclipse"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
