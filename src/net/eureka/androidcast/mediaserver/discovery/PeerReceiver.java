@@ -11,7 +11,6 @@ import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 import net.eureka.androidcast.Start;
-import net.eureka.androidcast.Static;
 import net.eureka.androidcast.foundation.init.NetworkGlobals;
 import net.eureka.androidcast.foundation.logging.Logger;
 import net.eureka.androidcast.gui.lang.LanguageDelegator;
@@ -88,8 +87,8 @@ public final class PeerReceiver extends Thread
 	private static InetAddress multicastAddress = null;
 	
 	/**
-	 * The Only Constructor. Resets disconnect flag, then proceeds to set thread name to "Discovery" and initializes the multicast address.
-	 * After that the multicast socket is initialized and binded to port(1900), the network interface is set to LocalHost so that the DHCP
+	 * The Only Constructor. Resets disconnect flag, then proceeds to set thread name to "Discovery" and Initialises the multicast address.
+	 * After that the multicast socket is Initialised and binded to port(1900), the network interface is set to LocalHost so that the DHCP
 	 * address will be chosen. Finally the socket joins the multicast broadcast address(239.255.255.250), sets the read timeout to five seconds
 	 * and starts the thread.
 	 */
@@ -101,12 +100,12 @@ public final class PeerReceiver extends Thread
 			disconnect = false;
 			// Set thread name.
 			this.setName("Discovery");
-			// Initialize broadcast address.
+			// Initialise broadcast address.
 			multicastAddress = InetAddress.getByName("239.255.255.250");
-			// Initialize multicast socket and bind to port(1900).
+			// Initialise multicast socket and bind to port(1900).
 			socket = new MulticastSocket(PEER_DISCOVERY_PORT);
 			// Set network interface to Local Host.
-			socket.setNetworkInterface(NetworkInterface.getByInetAddress(Static.getInetAddresses().get(0)));
+			socket.setNetworkInterface(NetworkInterface.getByInetAddress(NetworkGlobals.getDhcpNetwork()));
 			// Join multicast broadcast address.
 			socket.joinGroup(multicastAddress);
 			// Set read timeout to 5000 milliseconds.

@@ -39,7 +39,7 @@ public final class Menu extends Application
 			
 			//System.out.println(netError);
 			// turn off neterror until it's completion
-			netError = false;
+			//netError = false;
 			if(netError)
 				createNetMenu();
 			else
@@ -64,7 +64,7 @@ public final class Menu extends Application
 		menu.show();	
 	}
 	
-	private void createMainMenu()
+	public void createMainMenu()
 	{
 		menu.setMinHeight(675);
 		menu.setMinWidth(700);
@@ -75,7 +75,8 @@ public final class Menu extends Application
 		menu.setOnCloseRequest(new EventHandler<WindowEvent>() 
 		{
             @Override
-            public void handle(WindowEvent t) {
+            public void handle(WindowEvent t) 
+            {
                 destroy();
             }
         });

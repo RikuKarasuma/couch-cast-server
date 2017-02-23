@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import net.eureka.androidcast.Static;
 import net.eureka.androidcast.foundation.init.ApplicationGlobals;
 import net.eureka.androidcast.foundation.init.InitialiseFoundation;
 import net.eureka.androidcast.foundation.init.NetworkGlobals;
@@ -131,7 +132,9 @@ public final class Configuration
 					is_deep_search = Boolean.parseBoolean(buffered_reader.readLine()),
 					is_music_mode = Boolean.parseBoolean(buffered_reader.readLine());
 			
-			String search_delay_str = buffered_reader.readLine(), update_delay_str = buffered_reader.readLine();			
+			String search_delay_str = buffered_reader.readLine(), update_delay_str = buffered_reader.readLine(),
+					dhcp_network_str = buffered_reader.readLine();
+			
 			int search_delay = 500, update_delay = 2000;
 			if(search_delay_str != null && !search_delay_str.isEmpty())
 				search_delay = Integer.parseInt(search_delay_str);
@@ -156,6 +159,10 @@ public final class Configuration
 			ApplicationGlobals.setSearchDelay(search_delay);
 			// Set update delay.
 			ApplicationGlobals.setUpdateDelay(update_delay);
+			// Set DHCP network interface.
+			NetworkGlobals.setDhcpNetwork(Static.getInetAddressFromName(dhcp_network_str));
+			// Set DHCP interface face.
+			NetworkGlobals.setDhcpNetworkName(dhcp_network_str);
 			// Update ToolTip Title on the Tray.
 			Tray.updateToolTipTitle();
 			// Close file stream.
@@ -213,8 +220,10 @@ public final class Configuration
 				String.valueOf(ApplicationGlobals.isMusicMode()),
 				// Search Delay.
 				String.valueOf(ApplicationGlobals.getSearchDelay()),
-				// Update Delay
-				String.valueOf(ApplicationGlobals.getUpdateDelay())
+				// Update Delay.
+				String.valueOf(ApplicationGlobals.getUpdateDelay()),
+				// Interface name.
+				NetworkGlobals.getDhcpNetworkName()
 		};
 		try
 		{

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -15,7 +14,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -187,75 +185,73 @@ public final class Static
 		return address;
 	}
 	
+	public static InetAddress getInetAddressFromName(String name)
+	{
+		ArrayList<InetAddress> valid_addresses = getInetAddresses();
+		
+		for(int i = 0; i < valid_addresses.size(); i ++)
+			if(INTERFACES.get(i).equals(name))
+				return valid_addresses.get(i);
+		
+		return null;
+	}
+	
 	public static ArrayList<InetAddress> getInetAddresses()
 	{
 		ArrayList<InetAddress> valid_addresses = new ArrayList<>();
 		
 		try 
 		{
-			Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-			for (NetworkInterface interface_ : Collections.list(interfaces)) 
+			ArrayList<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			
+			for (NetworkInterface net_interface : interfaces) 
 		    {
-				  // we don't care about loopback addresses
-				  if (interface_.isLoopback())
-					  continue;
-			
-				  // if you don't expect the interface to be up you can skip this
-				  // though it would question the usability of the rest of the code
-				  if (!interface_.isUp())
-					  continue;
-				  
-				  //INTERFACES.add();
-			
-				  // iterate over the addresses associated with the interface
-				  Enumeration<InetAddress> addresses = interface_.getInetAddresses();
-				  for (InetAddress address : Collections.list(addresses))
-				  {
-					  // look only for ipv4 addresses
-					  if (address instanceof Inet6Address)
-						  continue;
-					  
-					  // use a timeout big enough for your needs
-					  if (!address.isReachable(3000))
-						  continue;
+				if(!INTERFACES.contains(net_interface.toString()) && net_interface.isUp() && !net_interface.isVirtual() && !net_interface.isLoopback() && net_interface.supportsMulticast())
+				{
+					// iterate over the addresses associated with the interface
+					ArrayList<InetAddress> addresses = Collections.list(net_interface.getInetAddresses());
+					for (int i = 0; i < addresses.size(); i ++)
+					{
+						InetAddress address = addresses.get(i);
 						
-						
-					  // java 7's try-with-resources statement, so that
-					  // we close the socket immediately after use
-					  try (SocketChannel socket = SocketChannel.open()) 
-					  {
-						  // again, use a big enough timeout
-						  socket.socket().setSoTimeout(1000);
-						
-						  // bind the socket to your local interface
-						  socket.bind(new InetSocketAddress(address, 8080));
-						
-						  // try to connect to *somewhere*
-						  socket.connect(new InetSocketAddress("google.com", 80));
-					  }
-					  catch (IOException ex)
-					  {
-						  ex.printStackTrace();
-						  continue;
-					  }
-						
-						
-					  // stops at the first *working* solution
-					  valid_addresses.add(address);
-				  }
-				  
-				  String name = interface_.toString();
-				  System.out.format("ni: %s\n", name);
-				  INTERFACES.add(name);
-		    }
+						// look only for ipv4 addresses
+						if (!(address instanceof Inet6Address) && address.isReachable(3000))
+						{
+							String name = net_interface.toString();
+							System.out.format("["+i+"] ni: %s\n", name);
+							
+							// java 7's try-with-resources statement, so that
+							// we close the socket immediately after use
+							/*try (SocketChannel socket = SocketChannel.open()) 
+							{
+								//again, use a big enough timeout
+								socket.socket().setSoTimeout(1000);								
+								//bind the socket to your local interface
+								socket.bind(new InetSocketAddress(address, 8080));
+								//try to connect to *somewhere*
+								socket.connect(new InetSocketAddress("google.com", 80));*/
+								//stops at the first *working* solution
+								valid_addresses.add(address);
+								// Add name to interface name list
+								INTERFACES.add(name.split(":")[1]);
+								// Make i the size limit to exit loop.
+								i = addresses.size();
+							/*}
+							catch (IOException ex)
+							{
+								ex.printStackTrace();
+								continue;
+							}*/
+						}
+					}
+				}
+			}
 		}
 		catch (IOException e) 
-	    {
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 		return valid_addresses;
 	}
 	

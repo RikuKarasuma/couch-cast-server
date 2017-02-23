@@ -4,6 +4,8 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import net.eureka.androidcast.foundation.config.Configuration;
+
 /**
  * Abstract class so it can't be Instantiated. NetworkGlobals is a storage object for all network variables common to the
  * whole server. It contains the default server name as well as the modified one that can be chosen in by the user. A list of
@@ -28,6 +30,8 @@ public final class NetworkGlobals
 	private static final ArrayList<InetAddress> CLIENTS = new ArrayList<InetAddress>();
 	
 	private static InetAddress dhcpNetwork = null;
+	
+	private static String dhcpNetworkName = "";
 	
 	/**
 	 * Custom server name. The user can change this. It is also used by the default server name if no user has set a name.
@@ -123,9 +127,25 @@ public final class NetworkGlobals
 	{
 		return dhcpNetwork;
 	}
-
-	public static void setDhcpNetwork(InetAddress dhcpNetwork) 
+	
+	public static void setDhcpNetwork(InetAddress dhcp_network, String network_name)
 	{
-		NetworkGlobals.dhcpNetwork = dhcpNetwork;
+		NetworkGlobals.dhcpNetwork = dhcp_network;
+		NetworkGlobals.dhcpNetworkName = network_name;
+		new Configuration(true);
+	}
+
+	public static void setDhcpNetwork(InetAddress dhcp_network) 
+	{
+		NetworkGlobals.dhcpNetwork = dhcp_network;
+	}
+
+	public static String getDhcpNetworkName()
+	{
+		return dhcpNetworkName;
+	}
+
+	public static void setDhcpNetworkName(String dhcpNetworkName) {
+		NetworkGlobals.dhcpNetworkName = dhcpNetworkName;
 	}
 }

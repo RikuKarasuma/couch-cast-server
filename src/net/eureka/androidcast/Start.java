@@ -15,17 +15,17 @@ import net.eureka.androidcast.mediaserver.discovery.PeerReceiver;
  * Collected. Here is a list of each object that is initialized and their functions. </br>
  * 
  * <pre>
- * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |Class|||||||||||||||||||Reference Name||||||||||||||||||Function/s||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |PeerReceiver||||||||||||discoveryServer|||||||||||||||||UPnP network discovery. Handles sending of Server I.P details to client.||||||||||||||||||||
- * |PasswordReceiver||||||||authenticationServer||||||||||||TCP/IP client authentication. Handles receiving and verification of password.|||||||||||||||
- * |MediaReceiver|||||||||||mediaServer|||||||||||||||||||||TCP/IP media server delegate. Handles receiving and verification of media server commands.|| 
- * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||Also handles another TCP/IP server for media info broadcasting.|||||||||||||||||||||||||||||
- * |Tray||||||||||||||||||||taskBarTray|||||||||||||||||||||Desktop taskbar tray. Sets up taskbar and handles creation of the options menu.|||||||||||||
- * |InitialiseFoundation||||foundationServer||||||||||||||||Initializes logger, directory and configuration creation, file fetcher and the file server.|
- * |InitialiseNetwork|||||||initialisingObject||||||||||||||Creates the above objects in a safe specific order and then holds references to them.|||||||
- * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |Class|||||||||||||||||||Reference Name||||||||||||||Function/s||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |PeerReceiver||||||||||||discoveryServer|||||||||||||UPnP network discovery. Handles sending of Server I.P details to client.||||||||||||||||||||
+ * |PasswordReceiver||||||||authenticationServer||||||||TCP/IP client authentication. Handles receiving and verification of password.|||||||||||||||
+ * |MediaReceiver|||||||||||mediaServer|||||||||||||||||TCP/IP media server delegate. Handles receiving and verification of media server commands.|| 
+ * |||||||||||||||||||||||||||||||||||||||||||||||||||||Also handles another TCP/IP server for media info broadcasting.|||||||||||||||||||||||||||||
+ * |Tray||||||||||||||||||||taskBarTray|||||||||||||||||Desktop taskbar tray. Sets up taskbar and handles creation of the options menu.|||||||||||||
+ * |InitialiseFoundation||||foundationServer||||||||||||Initializes logger, directory and configuration creation, file fetcher and the file server.|
+ * |InitialiseNetwork|||||||initialisingObject||||||||||Creates the above objects in a safe specific order and then holds references to them.|||||||
+ * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
  * </pre>
  * The default server name is also set up here before the configuration file is read just in case it cannot be found.</br>
  * 
@@ -91,13 +91,12 @@ public class Start
 			foundationSetup = new InitialiseFoundation();
 			// Append to log when the server has started.
 			Logger.append(INITIALISING_LOG_TEXT);
-			// Initialise UPnP discovery server.
-			discoveryServer = new PeerReceiver();
-			// Initialise TCP network server.
-			clientHandler = new NetworkHandler();
 			
+			if(!foundationSetup.hasNoDHCPNetwork())
+				startNetworking();
 			// Initialise menu.
 			Menu.initialise(false, foundationSetup.hasNoDHCPNetwork());
+			//if(foundationSetup.hasNoDHCPNetwork())
 		}
 	}
 	
@@ -117,6 +116,17 @@ public class Start
 	{
 		// Stores it within NetworkGlobals.
 		NetworkGlobals.setServerName(NetworkGlobals.getDefaultServerName());
+	}
+	
+	/**
+	 * Initialises networking components.
+	 */
+	public static void startNetworking()
+	{
+		// Initialise UPnP discovery server.
+		discoveryServer = new PeerReceiver();
+		// Initialise TCP network server.
+		clientHandler = new NetworkHandler();
 	}
 	
 	/**

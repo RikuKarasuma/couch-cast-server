@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import net.eureka.androidcast.foundation.file.manager.DirectoryFactory;
+import net.eureka.androidcast.foundation.init.NetworkGlobals;
 import net.eureka.androidcast.mediaserver.authentication.ConnectionValidation;
 import net.eureka.androidcast.mediaserver.player.Broadcaster;
 import net.eureka.androidcast.mediaserver.player.Receiver;
@@ -21,7 +22,8 @@ import net.eureka.androidcast.mediaserver.playlist.PlaylistWorker;
 
 public final class NetworkHandler implements Runnable
 {
-	private static final int PORT = 63050; //0xf64a
+	private static final int PORT = 63050, //0xf64a
+								CONNECTION_BACKLOG_LIMIT = 100; // 0x64
 	private static final byte AUTHENTICATION_CODE = -127, //0x81
 								FILE_CODE = -126, //0x82 
 								INFO_CODE = -125, //0x83
@@ -47,7 +49,7 @@ public final class NetworkHandler implements Runnable
 	{
 		try 
 		{
-			serverSocket = new ServerSocket(PORT);
+			serverSocket = new ServerSocket(PORT, CONNECTION_BACKLOG_LIMIT, NetworkGlobals.getDhcpNetwork());
 			serverSocket.setSoTimeout(5000);
 		} 
 		catch (IOException e)

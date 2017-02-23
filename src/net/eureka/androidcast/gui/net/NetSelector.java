@@ -12,13 +12,25 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import net.eureka.androidcast.Start;
+import net.eureka.androidcast.foundation.init.NetworkGlobals;
 import net.eureka.androidcast.gui.Menu;
 import net.eureka.androidcast.gui.control.WindowControl;
 import net.eureka.androidcast.gui.control.handlers.DoubleClickSizeHandler;
 import net.eureka.androidcast.gui.control.handlers.MoveHandler;
 
+/**
+ * 
+ * Small Menu which displays the available network interfaces to select. Only appears on first time start up,
+ * or if the config file has been deleted.
+ * 
+ * @author Owen McMonagle.
+ *
+ */
 public final class NetSelector extends Scene 
 { 
+	
+	private static boolean noNetwork = false;
 	
 	private NetViewer viewer = null;
 	
@@ -36,7 +48,14 @@ public final class NetSelector extends Scene
 		@Override
 		public final void handle(ActionEvent e) 
 		{
-			parent.switchToSettings();
+			if(!noNetwork)
+			{
+				NetworkGlobals.setDhcpNetwork(viewer.getSelectedNetwork(), viewer.getNetworkName());
+				Start.startNetworking();
+				parent.createMainMenu();
+			}
+			else
+				System.exit(0);
 		}
 	};
 	
@@ -115,7 +134,8 @@ public final class NetSelector extends Scene
 	
 	public void updatePlaylist()
 	{
-		Platform.runLater(new Runnable() {
+		Platform.runLater(new Runnable() 
+		{
 			
 			@Override
 			public void run() 
@@ -124,5 +144,10 @@ public final class NetSelector extends Scene
 					viewer.setUpData();
 			}
 		});
+	}
+
+	public static void setNoNetwork(boolean no_network) 
+	{
+		noNetwork = no_network;
 	}
 }

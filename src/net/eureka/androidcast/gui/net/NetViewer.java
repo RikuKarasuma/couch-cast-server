@@ -2,8 +2,6 @@ package net.eureka.androidcast.gui.net;
 
 
 import net.eureka.androidcast.Static;
-import net.eureka.androidcast.foundation.config.Configuration;
-import net.eureka.androidcast.foundation.init.ApplicationGlobals;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -24,6 +22,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Creates and populates a list with Network Interfaces that are available for selection.
+ * @author Owen McMonagle.
+ *
+ */
 public final class NetViewer
 {
 	
@@ -33,8 +36,13 @@ public final class NetViewer
 	
 	private final ListHandler listHandler = new ListHandler();
 	
+	private ArrayList<InetAddress> interfaceAddresses = null;
+	
+	private String interfaceName = "";
+	
 	public NetViewer(BorderPane gui_scene) 
 	{
+		interfaceAddresses = Static.getInetAddresses();
 		netList.setId("playlist");
 		netList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		netList.setMinWidth(350);
@@ -46,24 +54,26 @@ public final class NetViewer
 		Tooltip playlist_tip = new Tooltip("The found active network interfaces.");
 		playlist_tip.setId("tool_tip");
 		Tooltip.install(netList, playlist_tip);
-		setUpData();
 		this.setUpColumns();
 		this.addColumnMonitor();
 		gui_scene.setCenter(this.setUpScroller());
+		
+		setUpData();
 	}
 	
 	public void setUpData()
 	{
-		if(Static.getInetAddresses().isEmpty())
+		if(interfaceAddresses.isEmpty())
 			setUpNoData();
 		else
-			createPlaylistData();
+			netList.setItems(createPlaylistData());
 	}
 	
 	private void setUpNoData()
 	{
 		final byte[] no_media_detected = "No interfaces detected. Please install network drivers.".getBytes();
 		netList.setItems(FXCollections.observableArrayList(new DirectoryItem(no_media_detected)));
+		NetSelector.setNoNetwork(true);
 	}
 	
 	private ObservableList<DirectoryItem> createPlaylistData()
@@ -73,6 +83,7 @@ public final class NetViewer
 		ArrayList<String> interface_names = Static.getInterfaceNames();
 		for(String row_data : interface_names)
 		{
+			System.out.println(row_data);
 			folder_item = new DirectoryItem(row_data.getBytes());
 			media_list.add(folder_item);
 		}
@@ -110,29 +121,16 @@ public final class NetViewer
             }
 	    });
 	}
-	
-	public String[] selectedIndexes()
+
+	public InetAddress getSelectedNetwork()
 	{
-		return ListHandler.indexes;
+		final int index = (listHandler.index != -1) ? listHandler.index : 0 ;
+		return interfaceAddresses.get(index);
 	}
 	
-	public void resetSelectedIndexes()
+	public String getNetworkName()
 	{
-		netList.getItems().removeAll(ListHandler.selectedItems);
-		reset();
-	}
-	
-	public void resetAllIndexes()
-	{
-		netList.getItems().clear();
-		reset();
-	}
-	
-	private void reset()
-	{
-		setUpData();
-		ListHandler.indexes = null;
-		new Configuration(true);
+		return interfaceName;
 	}
 	
 	public static class DirectoryItem
@@ -160,17 +158,20 @@ public final class NetViewer
 		}
 	}
 	
-	private static class ListHandler implements EventHandler<MouseEvent> 
+	private class ListHandler implements EventHandler<MouseEvent> 
 	{
-		private static String[] indexes = null;
-		private static ObservableList<DirectoryItem> selectedItems = null;
+		private int index = -1;
 
 		@Override
 		public void handle(MouseEvent event)
 		{
 			@SuppressWarnings("unchecked")
 			TableView<DirectoryItem> view = (TableView<DirectoryItem>) event.getSource();
-			selectedItems = view.getSelectionModel().getSelectedItems();
+			index = view.getSelectionModel().getSelectedIndex();
+			if(index != -1)
+				interfaceName = view.getSelectionModel().getSelectedItem().getName();
+			else
+				interfaceName = Static.getInterfaceNames().get(0);
 		}
     }
 }
