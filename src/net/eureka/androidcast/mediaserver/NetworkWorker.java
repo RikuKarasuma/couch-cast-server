@@ -9,6 +9,13 @@ import java.net.SocketException;
 
 import net.eureka.androidcast.foundation.init.NetworkGlobals;
 
+/**
+ * Abstract class which defines more structure for the net protocol which adheres to {@link NetworkImpl}.
+ * Most workers will be acted on using a thread pool through the run-read-verify-write stages. 
+ * 
+ * @author Owen McMonagle.
+ *
+ */
 public abstract class NetworkWorker implements NetworkImpl
 {
 	private Socket connection = null;

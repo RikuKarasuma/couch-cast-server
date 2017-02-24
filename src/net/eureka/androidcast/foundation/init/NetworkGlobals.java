@@ -7,10 +7,10 @@ import java.util.Arrays;
 import net.eureka.androidcast.foundation.config.Configuration;
 
 /**
- * Abstract class so it can't be Instantiated. NetworkGlobals is a storage object for all network variables common to the
- * whole server. It contains the default server name as well as the modified one that can be chosen in by the user. A list of
- * verified clients is also located here. That list is used by every major socket component around the server for verification
- * of incoming connections. This is done by using the compareAddress(InetAddress compare_address) method below.
+ * NetworkGlobals is a storage object for all network variables common to the whole server. It contains the default server name 
+ * as well as the modified one that can be chosen in by the user. A list of verified clients is also located here. That list is 
+ * used by every major socket component around the server for verification of incoming connections. This is done by using the 
+ * compareAddress(InetAddress compare_address) method below.
  * 
  * @author Owen McMonagle.
  */
@@ -145,7 +145,8 @@ public final class NetworkGlobals
 		return dhcpNetworkName;
 	}
 
-	public static void setDhcpNetworkName(String dhcpNetworkName) {
-		NetworkGlobals.dhcpNetworkName = dhcpNetworkName;
+	public static void setDhcpNetworkName(String dhcp_network_name) 
+	{
+		NetworkGlobals.dhcpNetworkName = dhcp_network_name;
 	}
 }

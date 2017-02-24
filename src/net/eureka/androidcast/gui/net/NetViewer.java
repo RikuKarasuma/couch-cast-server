@@ -114,12 +114,12 @@ public final class NetViewer
 	{
 		netList.getColumns().addListener(new ListChangeListener<Object>()
 		{
-	        @Override
-	        public void onChanged(Change<?> change) 
-	        {
-	            netList.resizeColumn(netList.getColumns().get(0), 1);
-            }
-	    });
+			@Override
+			public void onChanged(Change<?> change) 
+			{
+				netList.resizeColumn(netList.getColumns().get(0), 1);
+			}
+		});
 	}
 
 	public InetAddress getSelectedNetwork()
@@ -173,5 +173,5 @@ public final class NetViewer
 			else
 				interfaceName = Static.getInterfaceNames().get(0);
 		}
-    }
+	}
 }

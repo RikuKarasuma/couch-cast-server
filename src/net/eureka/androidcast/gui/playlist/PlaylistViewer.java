@@ -132,12 +132,12 @@ public final class PlaylistViewer
 	{
 		playlist.getColumns().addListener(new ListChangeListener<Object>()
 		{
-	        @Override
-	        public void onChanged(Change<?> change) 
-	        {
-	            playlist.resizeColumn(playlist.getColumns().get(0), 1);
-            }
-	    });
+			@Override
+			public void onChanged(Change<?> change) 
+			{
+				playlist.resizeColumn(playlist.getColumns().get(0), 1);
+			}
+		});
 	}
 	
 	public static class PlaylistItem

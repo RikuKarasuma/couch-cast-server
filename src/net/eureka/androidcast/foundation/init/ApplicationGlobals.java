@@ -9,7 +9,7 @@ import net.eureka.utils.SystemDetect;
 import net.eureka.utils.Systems;
 
 /**
- * Abstract class so it can't be Instantiated. Contains global application variables such as the operating system, application directory (\<USER>\PCCast\),
+ * Contains global application variables such as the operating system, application directory (\<USER>\Couch Cast\),
  * log encoding and the JVM process ID.
  * 
  * @author Owen McMonagle.
