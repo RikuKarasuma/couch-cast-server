@@ -12,6 +12,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import net.eureka.androidcast.Start;
 import net.eureka.androidcast.foundation.init.NetworkGlobals;
 import net.eureka.androidcast.gui.Menu;
@@ -73,7 +74,7 @@ public final class NetSelector extends Scene
 	
 	private final FlowPane buttonContainer = new FlowPane(acceptButton, exitButton), bottomContainer = new FlowPane(Orientation.VERTICAL, buttonContainer);
 	
-	public NetSelector(Menu parent_container)
+	public NetSelector(Stage parent_stage, Menu parent_container)
 	{
 		super(new StackPane());
 		this.getStylesheets().add(getClass().getResource("../application.css").toExternalForm());
@@ -82,9 +83,9 @@ public final class NetSelector extends Scene
 		this.root.getChildren().add(this.background);
 		
 		// Define window controls
-		new MoveHandler(parent_container.getStage(), this.background);
-		new DoubleClickSizeHandler(parent_container.getStage(), this.background);
-		new WindowControl(parent_container.getStage(), this.root);
+		new MoveHandler(parent_stage, this.background);
+		new DoubleClickSizeHandler(parent_stage, this.background);
+		new WindowControl(parent_stage, this.root);
 		
 		setUpComponents();
 	}

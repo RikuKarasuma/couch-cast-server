@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import net.eureka.androidcast.foundation.file.manager.DirectoryFactory;
 import net.eureka.androidcast.gui.control.WindowControl;
 import net.eureka.androidcast.gui.control.handlers.DoubleClickSizeHandler;
@@ -73,7 +74,7 @@ public final class MainMenu extends Scene
 	
 	private final FlowPane buttonContainer = new FlowPane(loadButton, settingsButton, helpButton, shutdownButton), headingContainer = new FlowPane(Orientation.VERTICAL, heading, buttonContainer);
 	
-	MainMenu(Menu parent_container)
+	MainMenu(Stage parent_stage, Menu parent_container)
 	{
 		super(new StackPane());
 		this.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -82,9 +83,9 @@ public final class MainMenu extends Scene
 		this.root.getChildren().add(this.background);
 		
 		// Define window controls
-		new MoveHandler(parent_container.getStage(), this.background);
-		new DoubleClickSizeHandler(parent_container.getStage(), this.background);
-		new WindowControl(parent_container.getStage(), this.root);
+		new MoveHandler(parent_stage, this.background);
+		new DoubleClickSizeHandler(parent_stage, this.background);
+		new WindowControl(parent_stage, this.root);
 		
 		
 		setUpComponents();

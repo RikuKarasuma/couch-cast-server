@@ -91,8 +91,9 @@ public class Start
 			foundationSetup = new InitialiseFoundation();
 			// Append to log when the server has started.
 			Logger.append(INITIALISING_LOG_TEXT);
-			
+			// If dhcp network has been found...
 			if(!foundationSetup.hasNoDHCPNetwork())
+				// start networking.
 				startNetworking();
 			// Initialise menu.
 			Menu.initialise(false, foundationSetup.hasNoDHCPNetwork());

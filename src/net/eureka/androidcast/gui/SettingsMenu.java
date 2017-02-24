@@ -35,6 +35,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public final class SettingsMenu extends Scene
 {
@@ -121,7 +122,7 @@ public final class SettingsMenu extends Scene
 			DirectoryChooser monitored_chooser = new DirectoryChooser();
 			monitored_chooser.setTitle(DOWNLOAD_DIALOG_TITLE);
 			this.handleDirectoryOpening(monitored_chooser);
-			File choosen_dir = monitored_chooser.showDialog(parent.getStage());
+			File choosen_dir = monitored_chooser.showDialog(parentStage);
 			this.handleChoosenDirectory(choosen_dir);
 		}
 		
@@ -274,9 +275,12 @@ public final class SettingsMenu extends Scene
 	
 	private StackPane root = null;
 	
-	public SettingsMenu(Menu settings_parent) 
+	private Stage parentStage = null;
+	
+	public SettingsMenu(Stage parent_stage, Menu settings_parent) 
 	{
 		super(new StackPane());
+		this.parentStage = parent_stage;
 		this.parent = settings_parent;
 		this.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		this.container = new VBox();
@@ -286,9 +290,9 @@ public final class SettingsMenu extends Scene
 		this.root.getChildren().add(this.container);
 		
 		// Define window controls
-		new MoveHandler(settings_parent.getStage(), this.container);
-		new DoubleClickSizeHandler(settings_parent.getStage(), this.container);
-		new WindowControl(settings_parent.getStage(), this.root);
+		new MoveHandler(this.parentStage, this.container);
+		new DoubleClickSizeHandler(this.parentStage, this.container);
+		new WindowControl(this.parentStage, this.root);
 
 		this.setUpButtons();
 		this.setUpDirectorySettings();

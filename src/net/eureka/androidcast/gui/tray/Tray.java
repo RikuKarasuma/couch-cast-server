@@ -58,19 +58,19 @@ public final class Tray
 	 * right-clicked, a new ConfigurationManager( i.e Settings window ) is created. 
 	 */
 	private static MouseAdapter inputListener = new MouseAdapter() 
-    {
+	{
 		/**
 		 * Listens for right-click events. Creates new settings window once clicked.
 		 */
-        @Override
-        public final void mouseClicked(MouseEvent e) 
-        {
-        	if(e.getButton() == MouseEvent.BUTTON1)		
-        	{
-	    		menu.setUp();
-        	}
-        }
-    };
+		@Override
+		public final void mouseClicked(MouseEvent e) 
+		{
+			if(e.getButton() == MouseEvent.BUTTON1)		
+			{
+				menu.setUp();
+			}
+		}
+	};
 	
 	/**
 	 * Tray constructor, only needs to be called once. Attempts to set up the TrayIcon object if
@@ -85,12 +85,12 @@ public final class Tray
 			// Attempt to set up TrayIcon object.
 			setUp();
 			// Attempt to add TrayIcon object to the System.
-        	initialiseTray();
+			initialiseTray();
 		}
 		// If the tray icon object is not supported by the OS...
 		else if(!SystemTray.isSupported())
 			// Show error message stating such.
-        	JOptionPane.showMessageDialog(null, "Operating system does not support SystemTray. Shutting down.", "ERROR: System tray not supported.", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Operating system does not support SystemTray. Shutting down.", "ERROR: System tray not supported.", JOptionPane.ERROR_MESSAGE);
 		// if the tray icon has already been unnecessary initialized...
 		else if(initialised)
 			// Show error message stating such.
@@ -105,11 +105,11 @@ public final class Tray
 	{
 		System.out.println(ICON_PATH);
 		// Instantiate the TrayIcon object with the retrieved Icon image and server name.
-    	icon = new TrayIcon(image.getImage(), NetworkGlobals.getServerName().toString());
-    	// Set TrayIcon to auto resize the attached image.
-        icon.setImageAutoSize(true);
-        // Add a mouse listener to the Icon for user input.
-        icon.addMouseListener(inputListener);        
+		icon = new TrayIcon(image.getImage(), NetworkGlobals.getServerName().toString());
+		// Set TrayIcon to auto resize the attached image.
+		icon.setImageAutoSize(true);
+		// Add a mouse listener to the Icon for user input.
+		icon.addMouseListener(inputListener);        
 	}
 	
 	/**
@@ -120,16 +120,16 @@ public final class Tray
 		// Retrieve the O.S's System tray.
 		final SystemTray systemTray = SystemTray.getSystemTray();
 		try
-        {
+		{
 			// Attempt to add TrayIcon object to system tray.
-            systemTray.add(icon);
-            // Tray is now initialized.
-            initialised = true;
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
+			systemTray.add(icon);
+			// Tray is now initialized.
+			initialised = true;
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
