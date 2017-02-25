@@ -161,7 +161,7 @@ public final class Configuration
 			ApplicationGlobals.setUpdateDelay(update_delay);
 			// Set DHCP network interface.
 			NetworkGlobals.setDhcpNetwork(Static.getInetAddressFromName(dhcp_network_str));
-			// Set DHCP interface face.
+			// Set DHCP interface name.
 			NetworkGlobals.setDhcpNetworkName(dhcp_network_str);
 			// Update ToolTip Title on the Tray.
 			Tray.updateToolTipTitle();

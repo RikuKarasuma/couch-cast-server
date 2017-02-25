@@ -26,6 +26,11 @@ import java.util.Enumeration;
  */
 public final class Static 
 {
+	
+	/**
+	 * Viable interface names found during the interface search at program start up. if 
+	 * getInetAddresses has not been called, this list will be empty.
+	 */
 	private static final ArrayList<String> INTERFACES = new ArrayList<String>();
 	
 	
@@ -185,6 +190,11 @@ public final class Static
 		return address;
 	}
 	
+	/**
+	 * Retrieves particular network interface address by the passed parameter name.
+	 * @param name - Name of network interface.
+	 * @return {@link InetAddress} - Found network address, null if none was found.
+	 */
 	public static InetAddress getInetAddressFromName(String name)
 	{
 		ArrayList<InetAddress> valid_addresses = getInetAddresses();
@@ -196,6 +206,10 @@ public final class Static
 		return null;
 	}
 	
+	/**
+	 * Searches through available network interfaces and creates a list of bindable address to return.
+	 * @return {@link ArrayList} - List of network interface addresses of type {@link InetAddress}.
+	 */
 	public static ArrayList<InetAddress> getInetAddresses()
 	{
 		ArrayList<InetAddress> valid_addresses = new ArrayList<>();
@@ -205,7 +219,6 @@ public final class Static
 			ArrayList<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
 			
 			for (NetworkInterface net_interface : interfaces) 
-		    {
 				if(!INTERFACES.contains(net_interface.toString()) && net_interface.isUp() && !net_interface.isVirtual() && !net_interface.isLoopback() && net_interface.supportsMulticast())
 				{
 					// iterate over the addresses associated with the interface
@@ -219,33 +232,14 @@ public final class Static
 						{
 							String name = net_interface.toString();
 							System.out.format("["+i+"] ni: %s\n", name);
-							
-							// java 7's try-with-resources statement, so that
-							// we close the socket immediately after use
-							/*try (SocketChannel socket = SocketChannel.open()) 
-							{
-								//again, use a big enough timeout
-								socket.socket().setSoTimeout(1000);								
-								//bind the socket to your local interface
-								socket.bind(new InetSocketAddress(address, 8080));
-								//try to connect to *somewhere*
-								socket.connect(new InetSocketAddress("google.com", 80));*/
-								//stops at the first *working* solution
-								valid_addresses.add(address);
-								// Add name to interface name list
-								INTERFACES.add(name.split(":")[1]);
-								// Make i the size limit to exit loop.
-								i = addresses.size();
-							/*}
-							catch (IOException ex)
-							{
-								ex.printStackTrace();
-								continue;
-							}*/
+							valid_addresses.add(address);
+							// Add name to interface name list
+							INTERFACES.add(name.split(":")[1]);
+							// Make i the size limit to exit loop.
+							i = addresses.size();
 						}
 					}
 				}
-			}
 		}
 		catch (IOException e) 
 		{
@@ -255,7 +249,7 @@ public final class Static
 		return valid_addresses;
 	}
 	
-	/**
+	/** **Deprecated**
 	 * Retrieves the InetAddress of the current DHCP activated network interface. It does
 	 * this by checking through each available interface, if the InetAddress of that interface
 	 * equals a Inet4Address(or IPV4) and also is a Local address then that interface is chosen.
@@ -267,6 +261,7 @@ public final class Static
 	 * @return InetAddress - Address of the current activated DHCP interface.
 	 */
 	@SuppressWarnings("unused")
+	@Deprecated()
 	private static InetAddress getBackUpInetAddress()
 	{
 		// Used for storing a located DHCP interface address.
@@ -382,6 +377,11 @@ public final class Static
 		return calculated_size.toString();
 	}
 	
+	/**
+	 * Converts long to byte array.
+	 * @param x - Long to convert.
+	 * @return byte[] - Byte array of the passed long
+	 */
 	public static byte[] longToBytes(long x) 
 	{
 	    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
@@ -389,6 +389,11 @@ public final class Static
 	    return buffer.array();
 	}
 
+	/**
+	 * Converts byte array to long.
+	 * @param byte[] - Byte array to convert. 
+	 * @return long - Long of the passed byte array.
+	 */
 	public static long bytesToLong(byte[] bytes)
 	{
 	    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
@@ -397,6 +402,10 @@ public final class Static
 	    return buffer.getLong();
 	}
 	
+	/**
+	 * Opens a webpage with the default system browser.
+	 * @param url - String URL of page to open.
+	 */
 	public static void openWebpage(String url)
 	{
 		try
@@ -409,6 +418,10 @@ public final class Static
 		}
 	}
 	
+	/**
+	 * Opens a webpage with the default system browser.
+	 * @param {@link URL} - URL of page to open.
+	 */
 	public static void openWebpage(URL url) 
 	{
 	    try 
@@ -421,6 +434,10 @@ public final class Static
 	    }
 	}
 	
+	/**
+	 * Opens a webpage with the default system browser.
+	 * @param {@link URI} - URI of page to open.
+	 */
 	public static void openWebpage(URI uri) 
 	{
 	    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
@@ -436,6 +453,11 @@ public final class Static
 	    
 	}
 	
+	/**
+	 * Returns interface names found during the search with the method, getInetAddresses.
+	 * If that method has not been run at least once, this list will be returned empty.
+	 * @return {@link ArrayList} - List of type {@link String}, contains viable interface names.
+	 */
 	public static ArrayList<String> getInterfaceNames()
 	{
 		return INTERFACES;

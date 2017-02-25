@@ -8,7 +8,7 @@ import java.util.List;
 
 import net.eureka.androidcast.foundation.file.media.MediaFile;
 
-public abstract class FileFactory 
+public final class FileFactory 
 {
 	private static final List<byte[]> MEDIA_NAME_LIST = Collections.synchronizedList(new ArrayList<byte[]>()),
 									  MEDIA_PATH_LIST = Collections.synchronizedList(new ArrayList<byte[]>()),

@@ -11,6 +11,14 @@ import net.eureka.androidcast.foundation.file.manager.FileFactory;
 import net.eureka.androidcast.foundation.file.media.MediaFile;
 import net.eureka.androidcast.mediaserver.NetworkWorker;
 
+
+/**
+ * Adheres to the {@link NetworkWorker} and {@link NetworkImpl} protocols. Acts as a file server endpoint.
+ * Sends playlist updates to a Android Client. Runs as a persistant connection in its own thread.
+ * 
+ * @author Owen McMonagle.
+ *
+ */
 public final class PlaylistWorker extends NetworkWorker
 {
 	/**
