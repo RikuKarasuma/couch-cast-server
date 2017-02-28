@@ -8,10 +8,11 @@ import java.util.List;
 /**
  * Runs every 30 seconds from the DirectoryFactory class. It is used to catch any files that may have been added to
  * the FileFactory after they have already been removed. This is a concurrency race issue that unfortunately has not
- * been solved as of yet. This patch alleviates the issue.  
+ * been solved as of yet. This patch alleviates the issue for now.
  * 
  * @author Owen McMonagle.
- *
+ * @see DirectoryFactory
+ * @see FileFactory
  */
 public class FileFactoryVerifier implements Runnable 
 {

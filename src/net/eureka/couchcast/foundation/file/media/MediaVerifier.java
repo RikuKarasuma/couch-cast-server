@@ -1,22 +1,22 @@
 package net.eureka.couchcast.foundation.file.media;
 
+import net.eureka.couchcast.foundation.file.manager.DirectoryScanner;
 
 /**
- * Abstract so it can't be instantiated. Used by {@link DirectoryFactory} to verify a media files extension. Uses a
+ * Used by {@link DirectoryScanner} to verify a media files extension. Uses a
  * list of valid VLC extensions to determine whether a file can be played or not. 
  * 
  * @author Owen McMonagle.
- * @see DirectoryFactory
+ * @see DirectoryScanner
  */
-public abstract class MediaVerifier
+public final class MediaVerifier
 {
 	/**
 	 * Valid VLC extensions. Taken from this URL: http://www.openwith.org/programs/vlc-media-player
 	 */
 	private static final String[] VALID_MEDIA_EXTENSIONS = new String[]
 	{
-		
-		/**
+				/**
 		 * Digital Theater Systems Audio File
 		 */
 		new String(".DTS"),

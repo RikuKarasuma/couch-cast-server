@@ -18,6 +18,31 @@ import net.eureka.couchcast.foundation.init.ApplicationGlobals;
 import net.eureka.couchcast.gui.tray.Tray;
 import net.eureka.couchcast.mediaserver.NetworkHandler;
 
+/**
+ * Handles the monitoring of each saved directory. Does this by creating a fixed thread pool based upon the number
+ * of available processors minus one, the factory itself used a {@link Thread} too. Each monitored directory is 
+ * managed by a {@link DirectoryScanner}, these scanners are worked upon by the thread pool. This allows for 
+ * a multithreaded search pattern using a Observer pattern along with a Producer/Consumer pattern. 
+ * <br>
+ * <br>
+ * A while loop constantly manages the observer pattern and assigns any directory not being scanned, as a job 
+ * to be run in the future.
+ * <br>
+ * <br>
+ * Sorting of the media files is also a responsibility of the thread pool and uses another observer pattern.
+ * <br>
+ * <br>
+ * Shaving and refactoring needs to occur for the next directory factory version as SRP is getting trampled
+ * with the number of responsiblities that this has too manage, cost to maintain is becoming too high. 
+ * 
+ * 
+ * @author Owen McMonagle.
+ * @see DirectoryScanner
+ * @see FileFactory
+ * @see NetworkHandler
+ * @see Tray
+ *
+ */
 public final class DirectoryFactory extends Thread
 {
 	private static final int WORKER_POOL_SIZE = Runtime.getRuntime().availableProcessors()-1, SCHEDULED_WORKER_SIZE = 1;
@@ -62,17 +87,11 @@ public final class DirectoryFactory extends Thread
 		this.waitFor(true);
 		while(discovery)
 		{
-			//System.err.println("Handling clean up.");
 			handleCleanUp();
-			//System.err.println("Handling scanners.");
 			handleScanners();
-			//System.err.println("Handling sorters.");
 			handleSorters();
-			//System.err.println("Handling gui updates.");
 			attemptGuiUpdate();
-			//System.err.println("Waiting.");
 			this.waitFor(false);
-			//System.out.println("Playlist size:  "+FileFactory.getListSize());
 		}
 	}
 	
@@ -89,7 +108,6 @@ public final class DirectoryFactory extends Thread
 				} 
 				catch (InterruptedException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -130,10 +148,6 @@ public final class DirectoryFactory extends Thread
 			for(int i = 0; i < SCANNERS.size(); i++)
 			{
 				DirectoryScanner scanner = SCANNERS.get(i);
-				//System.out.println("Scheduled:"+scanner.isScheduled());
-				//System.out.println("Scanning:"+scanner.isScanning());
-				//System.out.println("Finished:"+scanner.isFinished());
-				//System.out.println("Dir:  "+scanner.getDir());
 				handleScanner(scanner, finished_scanners);
 			}
 		}

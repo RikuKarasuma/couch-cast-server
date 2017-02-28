@@ -20,7 +20,7 @@ import net.eureka.couchcast.mediaserver.discovery.PeerReceiver;
  * |Class|||||||||||||||||||Reference Name||||||||||||||Function/s||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
  * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
  * |PeerReceiver||||||||||||discoveryServer|||||||||||||UPnP network discovery. Handles sending of Server I.P details to client.||||||||||||||||||||
- * |NetworkHandler|||||||||||mediaServer||||||||||||||||TCP/IP media server delegate. Handles receiving and verification of media server commands.||
+ * |NetworkHandler||||||||||mediaServer|||||||||||||||||TCP/IP media server delegate. Handles receiving and verification of media server commands.||
  * |Tray||||||||||||||||||||taskBarTray|||||||||||||||||Desktop taskbar tray. Sets up taskbar and handles creation of the options menu.|||||||||||||
  * |InitialiseFoundation||||foundationServer||||||||||||Initializes logger, directory and configuration creation, file fetcher and the file server.|
  * |Menu||||||||||||||||||||Menu(Static)||||||||||||||||Handles gui creation and sets up all gui action listeners.||||||||||||||||||||||||||||||||||

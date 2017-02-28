@@ -7,7 +7,30 @@ import java.util.Collections;
 import java.util.List;
 
 import net.eureka.couchcast.foundation.file.media.MediaFile;
+import net.eureka.couchcast.gui.playlist.PlaylistViewer;
+import net.eureka.couchcast.mediaserver.NetworkHandler;
 
+/**
+ * A factory pattern for media files. The media file data is split between lists that go as follows:
+ * name, path, size, file size, alphabetically sorted and size descending sorted. Another list called
+ * {@link DeepSearchIndex} is managed by another class for efficiency and to help prevent bloating.
+ * <br>
+ * <br>
+ * Here new lists are created and used to be displayed in the play-list via the GUI using {@link PlaylistViewer}
+ * or to be sent to each connected client via {@link NetworkHandler}.
+ * <br>
+ * <br>
+ * Each list handles the data as byte[] in order to cut down on Object memory consumption.
+ * 
+ * @author Owen McMonagle.
+ * @see DirectoryFactory
+ * @see DirectoryScanner
+ * @see DeepSearchIndex
+ * @see PlaylistViewer
+ * @see NetworkHandler
+ * @see MediaFile
+ *
+ */
 public final class FileFactory 
 {
 	private static final List<byte[]> MEDIA_NAME_LIST = Collections.synchronizedList(new ArrayList<byte[]>()),

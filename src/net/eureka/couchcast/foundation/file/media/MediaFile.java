@@ -3,20 +3,18 @@ package net.eureka.couchcast.foundation.file.media;
 import java.io.Serializable;
 
 import net.eureka.couchcast.foundation.file.manager.DirectoryFactory;
+import net.eureka.couchcast.mediaserver.playlist.PlaylistWorker;
 
 /**
  * Object representation of a Media File across the entire server and client. Used by mechanisms such as the
- * file {@link DirectoryFactory}, {@link FileHandler} and {@link MediaPlayer}. Contains useful information about
- * a media file such as name, path, size and whether the file is downloading or not.
- * If a MediaFile is set to downloading, the lists representing those files. I.E Android Client Play-list, 
- * Server Play-list will show those files as downloading.  
+ * file {@link DirectoryFactory}, {@link PlaylistWorker}. Contains useful information about a media file such 
+ * as name, path, size and whether the file is downloading or not.  
  * 
  * *** CLASS MUST BE CONSISTENT WITH CLIENTS CLASS VERSION *** 
  * 
  * @author Owen McMonagle.
  * @see DirectoryFactory
- * @see MediaPlayer
- * @see FileHandler
+ * @see PlaylistWorker
  */
 public class MediaFile implements Serializable
 {
@@ -37,14 +35,9 @@ public class MediaFile implements Serializable
 	private byte[] location = null;
 	
 	/**
-	 * Size of the media file, in MB or GB:MB. Imperial.
+	 * Size of the media file, in MB or GB:MB. Metric.
 	 */
 	private byte[] size = null;
-	
-	/**
-	 * Flag to indicate if the file is downloading or not.
-	 */
-	private boolean downloading = false;
 	
 	/**
 	 * Only constructor. Takes a media name, path, and file size as parameters.
@@ -93,24 +86,4 @@ public class MediaFile implements Serializable
 		return size;
 	}
 	
-	/**
-	 * Flag to set the media file as downloading.
-	 * @param Boolean is_downloading - True to set file is downloading, false otherwise.
-	 */
-	public void setIsDownload(boolean is_downloading)
-	{
-		// Set download flag.
-		this.downloading = is_downloading;
-	}
-	
-	/**
-	 * Getter to retrieve whether the media file is downloading or not.
-	 * @return Boolean - True if downloading, false otherwise.
-	 */
-	public boolean isDownloading()
-	{
-		// Returns downloading flag.
-		return downloading;
-	}
-
 }

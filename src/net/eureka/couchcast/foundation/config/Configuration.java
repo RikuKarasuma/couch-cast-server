@@ -18,7 +18,19 @@ import net.eureka.couchcast.gui.tray.Tray;
 
 /**
  * Handles the creation, writing and reading of the configuration file located within the application directory. The configuration file holds
- * values such as the server name, download directory and process ID of the current or last session.
+ * values such as(by configuration file line): 
+ * 
+ * <pre>
+ *		Server name.
+ *		Monitored directories.
+ *		Process id.
+ *		Minimized windows.
+ *		Deep search.
+ *		Music mode.
+ *		Search delay.
+ *		Update delay.
+ *		Network interface name. 
+ * </pre>
  * 
  * @author Owen McMonagle.
  *
@@ -110,7 +122,9 @@ public final class Configuration
 	}
 	
 	/**
-	 * Reads from the configuration file then updates the data retrieved from it.
+	 * Reads the Server name, Monitored directories, Process id, Minimized windows, Deep search, Music mode, Search delay, 
+	 * Update delay and Network interface name from the configuration file to update {@link ApplicationGlobals} and
+	 * {@link NetworkGlobals}.
 	 */
 	private static void readFromConfigurationFile()
 	{
@@ -196,7 +210,9 @@ public final class Configuration
 	}
 	
 	/**
-	 * Writes the server name, download directory and process id to the configuration file as to be loaded in later sessions.
+	 * Writes the Server name, Monitored directories, Process id, Minimized windows, Deep search, Music mode, Search delay, 
+	 * Update delay and Network interface name to the configuration file as to be loaded in later sessions.
+	 * 
 	 * @param File file - Configuration file to write to.
 	 */
 	private static void writeConfigurationFile(File file)

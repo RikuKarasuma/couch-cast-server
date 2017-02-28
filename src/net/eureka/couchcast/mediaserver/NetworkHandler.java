@@ -21,7 +21,7 @@ import net.eureka.couchcast.mediaserver.player.Receiver;
 import net.eureka.couchcast.mediaserver.playlist.PlaylistWorker;
 
 /**
- * Acts as a gateway which constantly listens for incoming TCP/IP connections at port 63050. Specific byte codes
+ * Acts as a gateway/factory which constantly listens for incoming TCP/IP connections at port 63050. Specific byte codes
  * determine the path that the connections will take with respect to the actions they wish to achieve, this is called
  * the action stage. Once a path has been decided, the connection is then passed to the thread pool for completion, 
  * or added to a persistant connections list for constant monitoring.

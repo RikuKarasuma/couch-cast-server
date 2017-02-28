@@ -17,6 +17,7 @@ import net.eureka.couchcast.foundation.config.Configuration;
 import net.eureka.couchcast.foundation.file.manager.FileFactory;
 import net.eureka.couchcast.foundation.file.media.MediaFile;
 import net.eureka.couchcast.foundation.init.ApplicationGlobals;
+import net.eureka.couchcast.mediaserver.NetworkInfo;
 import net.eureka.couchcast.mediaserver.NetworkWorker;
 
 public final class Receiver extends NetworkWorker
@@ -102,7 +103,7 @@ public final class Receiver extends NetworkWorker
 	 */
 	private static ObjectInputStream bridgeInput = null;
 	
-	private static MediaInfo info = null;
+	private static NetworkInfo info = null;
 	
 	/**
 	 * Wrapper for the received media file to play.
@@ -342,19 +343,19 @@ public final class Receiver extends NetworkWorker
 	
 	private void waitAndPlay()
 	{
-        if(isTimerRunning) timedPlayTask.cancel();
-        
-        isTimerRunning = true;
-        timedPlayTask = new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-            	sendPlaySig();
-    			isTimerRunning = false;
-            }
-        };
-        PLAY_TIMER.schedule(timedPlayTask, 3000);
+		if(isTimerRunning) timedPlayTask.cancel();
+		
+		isTimerRunning = true;
+		timedPlayTask = new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				sendPlaySig();
+				isTimerRunning = false;
+			}
+		};
+		PLAY_TIMER.schedule(timedPlayTask, 3000);
 		
 	}
 	
@@ -448,9 +449,6 @@ public final class Receiver extends NetworkWorker
 		byte[] response = null;
 		try
 		{
-			// Blocks response to client until OOP is started so fresh update data can be received.
-			//checkIfBridgeInitialization();
-			
 			// If validConnection and runCommand are true, then response equals PLAYER_SUCCESS_SEQUENCE. If not PLAYER_FAILURE_SEQUENCE.
 			response = (valid) ? PLAYER_SUCCESS_SEQUENCE : PLAYER_FAILURE_SEQUENCE ;
 			// Write response to stream.
@@ -494,9 +492,9 @@ public final class Receiver extends NetworkWorker
 					focus_hack = new KeepWindowFocusHack();
 				
 				startOOP();
-		        startOOPConection();
-		        startReading();
-		        connected = true;
+				startOOPConection();
+				startReading();
+				connected = true;
 			}
 			catch (Exception e)
 			{
@@ -510,7 +508,7 @@ public final class Receiver extends NetworkWorker
 			finally
 			{
 				if(focus_hack != null)
-		        	focus_hack.running = false;
+					focus_hack.running = false;
 			}
 	}
 	
@@ -546,12 +544,12 @@ public final class Receiver extends NetworkWorker
 			public void run() 
 			{
 				boolean connected = true;
-				MediaInfo received_info = null;
+				NetworkInfo received_info = null;
 				while(connected)
 				{
 					try
 					{
-						received_info = (MediaInfo) bridgeInput.readObject();
+						received_info = (NetworkInfo) bridgeInput.readObject();
 						waitForOppositeWrite();
 						if(received_info != null)
 						{
@@ -564,7 +562,6 @@ public final class Receiver extends NetworkWorker
 					catch (Exception e)
 					{
 						System.err.println("Disconnected from OOP.");
-						//info = null;
 						info.setTime(info.getLength());
 						info.setPlaying(false);
 						info.setForward(false);
@@ -606,7 +603,7 @@ public final class Receiver extends NetworkWorker
 		}
 	}
 	
-	public static MediaInfo getMediaInfo()
+	public static NetworkInfo getMediaInfo()
 	{
 		return info;
 	}

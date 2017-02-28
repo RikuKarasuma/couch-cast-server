@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import net.eureka.couchcast.mediaserver.NetworkInfo;
 import net.eureka.couchcast.mediaserver.NetworkWorker;
 
 public final class Broadcaster extends NetworkWorker
@@ -42,7 +43,7 @@ public final class Broadcaster extends NetworkWorker
 	public void write() 
 	{
 		DataOutputStream output = new DataOutputStream(getOutput());
-		MediaInfo info_object = Receiver.getMediaInfo();
+		NetworkInfo info_object = Receiver.getMediaInfo();
 		if(info_object != null)
 			try
 			{
@@ -56,7 +57,7 @@ public final class Broadcaster extends NetworkWorker
 			}
 	}
 		
-	private void convertDataAndSend(DataOutputStream output, MediaInfo info_object) throws IOException
+	private void convertDataAndSend(DataOutputStream output, NetworkInfo info_object) throws IOException
 	{
 		if(info_object != null)
 			sendInfoData(output, info_object);
@@ -64,7 +65,7 @@ public final class Broadcaster extends NetworkWorker
 			sendNullData(output);
 	}
 	
-	private void sendInfoData(DataOutputStream output, MediaInfo info_object) throws IOException
+	private void sendInfoData(DataOutputStream output, NetworkInfo info_object) throws IOException
 	{
 		synchronized (info_object) 
 		{

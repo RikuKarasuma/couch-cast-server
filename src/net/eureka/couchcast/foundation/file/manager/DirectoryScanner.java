@@ -20,6 +20,17 @@ import net.eureka.couchcast.foundation.logging.Logger;
 import net.eureka.couchcast.gui.lang.LanguageDelegator;
 import net.eureka.couchcast.gui.lang.Languages;
 
+/**
+ * Is responsible for scanning directories and retrieving the data of any valid media files. Is handled
+ * by the {@link DirectoryFactory} and doubles as a observer and producer/consumer pattern. Any found
+ * media files is added to the {@link FileFactory} and any media files that no longer exist are added
+ * to the {@link DirectoryFactory} for removal at the next update cycle.
+ * 
+ * @author Owen McMonagle.
+ * @see DirectoryFactory
+ * @see FileFactory
+ *
+ */
 public final class DirectoryScanner implements Runnable
 {
 	private static final DirectoryStream.Filter<Path> DIRECTORY_FILTER = new Filter<Path>()
@@ -189,22 +200,7 @@ public final class DirectoryScanner implements Runnable
 	{
 		return this.scheduled;
 	}
-
-
-//	/**
-//	 * Attempts to load the default download directory specified within ApplicationGlobals.
-//	 */
-//	private static void loadDefaultDirectory()
-//	{
-//		final ArrayList<String> monitored_list = ApplicationGlobals.getMonitoredList();
-//		// Load with default directory.
-//		for(int i = 0; i < monitored_list.size(); i++)
-//		{
-//			load(monitored_list.get(i));
-//			delay(true);
-//		}
-//	}
-
+	
 	/**
 	 * Attempts to load all files within the path directory specified as a parameter. Once all
 	 * files have been gathered, each is iterated through and verified with the conditions that 
