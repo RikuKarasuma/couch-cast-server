@@ -6,7 +6,6 @@ import net.eureka.couchcast.Static;
 import net.eureka.couchcast.foundation.config.Configuration;
 import net.eureka.couchcast.foundation.file.manager.DirectoryFactory;
 import net.eureka.couchcast.foundation.logging.Logger;
-import net.eureka.couchcast.foundation.service.Initialiser;
 import net.eureka.couchcast.gui.Menu;
 import net.eureka.couchcast.gui.lang.LanguageDelegator;
 import net.eureka.couchcast.gui.lang.Languages;
@@ -68,8 +67,6 @@ public final class InitialiseFoundation
 		new Logger();
 		// Append lines to signify new instance session.
 		Logger.append(new StringBuffer("--------------------------------"));
-		// Create instance of Initialiser to set up the start up service file.
-		new Initialiser();
 		// Create instance of Configuration to set up configuration file.
 		new Configuration(false);
 		// Check if a DHCP Network has been chosen...
