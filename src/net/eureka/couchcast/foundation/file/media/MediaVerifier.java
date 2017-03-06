@@ -7,7 +7,10 @@ import net.eureka.couchcast.foundation.file.manager.DirectoryScanner;
  * list of valid VLC extensions to determine whether a file can be played or not. 
  * 
  * @author Owen McMonagle.
+ * 
  * @see DirectoryScanner
+ * 
+ * @version 0.1
  */
 public final class MediaVerifier
 {

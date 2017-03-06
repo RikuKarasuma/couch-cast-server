@@ -10,6 +10,8 @@ import javax.swing.JFileChooser;
  * 
  * @see LanguageDelegator
  * @see Detect
+ * 
+ * @version 0.1
  */
 public enum Languages 
 {

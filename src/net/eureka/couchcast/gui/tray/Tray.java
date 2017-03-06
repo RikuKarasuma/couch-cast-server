@@ -18,14 +18,16 @@ import net.eureka.couchcast.gui.lang.LanguageDelegator;
 import net.eureka.couchcast.gui.lang.Languages;
 
 /**
- * Displays and handles the Desktop Tray Icon. Used to create the settings window ( i.e {@link BasicMenu} ) whenever a 
+ * Displays and handles the Desktop Tray Icon. Used to create the settings window ( i.e {@link Menu} ) whenever a 
  * right-click has been detected over the icon image. The Tray is also used to display informational text to the user. e.g When a 
  * new client connection is made or new folder has been imported, this is done through static methods that can be called from anywhere,
  * once the Tray object has been initialized.
  * 
  * @author Owen McMonagle
- * @see BasicMenu
- * @see InitialiseNetwork
+ * 
+ * @see Menu
+ * 
+ * @version 0.2
  */
 public final class Tray
 {

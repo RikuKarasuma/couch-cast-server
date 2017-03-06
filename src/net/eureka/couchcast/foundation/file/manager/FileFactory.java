@@ -23,6 +23,7 @@ import net.eureka.couchcast.mediaserver.NetworkHandler;
  * Each list handles the data as byte[] in order to cut down on Object memory consumption.
  * 
  * @author Owen McMonagle.
+ * 
  * @see DirectoryFactory
  * @see DirectoryScanner
  * @see DeepSearchIndex
@@ -30,6 +31,7 @@ import net.eureka.couchcast.mediaserver.NetworkHandler;
  * @see NetworkHandler
  * @see MediaFile
  *
+ * @version 0.3
  */
 public final class FileFactory 
 {

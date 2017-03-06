@@ -14,7 +14,8 @@ import net.eureka.couchcast.foundation.init.NetworkGlobals;
  * Most workers will be acted on using a thread pool through the run-read-verify-write stages. 
  * 
  * @author Owen McMonagle.
- *
+ * 
+ * @version 0.1
  */
 public abstract class NetworkWorker implements NetworkImpl
 {

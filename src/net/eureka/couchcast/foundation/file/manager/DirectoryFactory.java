@@ -37,11 +37,13 @@ import net.eureka.couchcast.mediaserver.NetworkHandler;
  * 
  * 
  * @author Owen McMonagle.
+ * 
  * @see DirectoryScanner
  * @see FileFactory
  * @see NetworkHandler
  * @see Tray
- *
+ * 
+ * @version 0.2
  */
 public final class DirectoryFactory extends Thread
 {

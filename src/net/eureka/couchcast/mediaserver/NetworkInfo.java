@@ -5,15 +5,18 @@ import java.io.Serializable;
 /**
  * A class that is continuously updated from the MediaPlayer object. Each of these variables are used to indicate the status of Media Player and it's
  * currently selected media.
- * </br>
+ * <br>
+ * <br>
  * Used by MediaPlayer object for updating.
- * </br>
+ * <br>
  * Used by MediaBroadcaster object for sending info about the player to client.
  * 
  * @author Owen McMonagle
  * 
  * @see MediaBroadcaster
  * @see MediaPlayer
+ * 
+ * @version 0.3
  */
 public final class NetworkInfo implements Serializable
 {

@@ -24,7 +24,7 @@ import net.eureka.couchcast.mediaserver.NetworkWorker;
  * @see NetworkWorker
  * @see NetworkHandler
  * 
- *
+ * @version 0.2
  */
 public final class PlaylistWorker extends NetworkWorker
 {

@@ -11,9 +11,11 @@ package net.eureka.couchcast.mediaserver;
  * Some of these abstract methods are defined more clearly within {@link NetworkWorker}.
  * 
  * @author Owen McMonagle
+ * 
  * @see NetworkHandler
  * @see NetworkWorker
  *
+ * @version 0.1
  */
 public interface NetworkImpl extends Runnable 
 {

@@ -7,9 +7,16 @@ import net.eureka.couchcast.mediaserver.player.Receiver;
 
 /**
  * Tests the {@link Receiver} contract of starting and stopping the OOP. Does this by repeating the
- * process constantly. Does not test the initial network protocol.  
- * @author Garak
- *
+ * process constantly. Does not test the initial network protocol.
+ * 
+ * @author Owen McMonagle.
+ * 
+ * @see Testbase
+ * @see TestManager
+ * @see MediaFile
+ * @see Receiver
+ * 
+ * @version 0.1
  */
 public final class OOPinitiator extends TestBase
 {

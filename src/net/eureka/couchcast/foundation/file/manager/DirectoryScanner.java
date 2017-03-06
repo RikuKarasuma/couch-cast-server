@@ -27,9 +27,11 @@ import net.eureka.couchcast.gui.lang.Languages;
  * to the {@link DirectoryFactory} for removal at the next update cycle.
  * 
  * @author Owen McMonagle.
+ * 
  * @see DirectoryFactory
  * @see FileFactory
  *
+ * @version 0.2
  */
 public final class DirectoryScanner implements Runnable
 {

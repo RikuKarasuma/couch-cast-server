@@ -13,6 +13,8 @@ import net.eureka.couchcast.foundation.config.Configuration;
  * compareAddress(InetAddress compare_address) method below.
  * 
  * @author Owen McMonagle.
+ * 
+ * @version 0.3
  */
 public final class NetworkGlobals 
 {

@@ -1,6 +1,5 @@
 package net.eureka.couchcast.gui.playlist;
 
-
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -15,10 +14,27 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import net.eureka.couchcast.foundation.file.manager.DirectoryFactory;
 import net.eureka.couchcast.foundation.file.manager.FileFactory;
+import net.eureka.couchcast.gui.MainMenu;
 import net.eureka.couchcast.gui.lang.LanguageDelegator;
 import net.eureka.couchcast.gui.lang.Languages;
+import net.eureka.couchcast.gui.tray.Tray;
 
+/**
+ * Managed from {@link MainMenu}. Creates a list filled with the media files located in {@link FileFactory} and found 
+ * by the {@link DirectoryFactory} or loaded with the load button from within {@link MainMenu}. Is updated via 
+ * {@link Tray}.
+ * 
+ * @author Owen McMonagle.
+ * 
+ * @see MainMenu
+ * @see FileFactory
+ * @see DirectoryFactory
+ * @see Tray
+ * 
+ * @version 0.1
+ */
 public final class PlaylistViewer
 {
 	

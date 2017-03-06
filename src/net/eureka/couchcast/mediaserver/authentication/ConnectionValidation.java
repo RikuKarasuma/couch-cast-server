@@ -26,11 +26,14 @@ import net.eureka.security.sha.Sha3;
  * This is for first time set up or a forgotten password and is done via {@link PasswordCreation}.
  * 
  * @author Owen McMonagle.
+ * 
  * @see NetworkGlobals
  * @see NetworkHandler
  * @see NetworkWorker
  * @See NetworkImpl
  * @see PasswordCreation
+ * 
+ * @version 0.2
  *
  */
 public final class ConnectionValidation extends NetworkWorker

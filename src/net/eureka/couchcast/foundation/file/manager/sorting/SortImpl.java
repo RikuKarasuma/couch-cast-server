@@ -13,6 +13,8 @@ import net.eureka.couchcast.foundation.file.manager.DirectoryFactory;
  * @see AlphaSort
  * @see SizeSort
  * @see DirectoryFactory
+ * 
+ * @version 0.1
  */
 public interface SortImpl extends Runnable
 {

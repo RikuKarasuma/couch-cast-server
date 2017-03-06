@@ -12,10 +12,13 @@ import net.eureka.couchcast.foundation.file.manager.DirectoryFactory;
  * will use this pattern appropriately.
  * 
  * @author Owen McMonagle.
+ * 
  * @see SortImpl
  * @see AlphaSort
  * @see SizeSort
  * @see DirectoryFactory
+ * 
+ * @version 0.1
  */
 public abstract class Sorter implements SortImpl 
 {

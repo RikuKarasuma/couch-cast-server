@@ -13,6 +13,8 @@ import net.eureka.security.sha.Sha3;
  * @author Owen McMonagle.
  * 
  * @see ConnectionValidation
+ * 
+ * @version 0.1
  */
 public final class PasswordCreation 
 {

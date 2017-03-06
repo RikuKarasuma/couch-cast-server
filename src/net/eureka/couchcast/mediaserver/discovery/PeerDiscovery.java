@@ -23,6 +23,8 @@ import net.eureka.network.udp.PacketIdentifier;
  * the {@link net.eureka.androidcast.design.connection.list.ConnectionController}.
  *
  * @author Owen McMonagle.
+ * 
+ * @version 0.1
  */
 public final class PeerDiscovery extends Thread
 {

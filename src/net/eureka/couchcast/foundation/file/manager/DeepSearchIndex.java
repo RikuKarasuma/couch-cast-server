@@ -9,7 +9,10 @@ import java.util.BitSet;
  * or boxed primitive boolean.  
  * 
  * @author Owen McMonagle.
+ * 
  * @see FileFactory
+ * 
+ * @version 0.1
  */
 public class DeepSearchIndex
 {

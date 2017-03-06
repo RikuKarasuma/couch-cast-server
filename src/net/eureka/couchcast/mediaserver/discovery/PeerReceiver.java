@@ -43,6 +43,8 @@ import net.eureka.couchcast.gui.lang.Languages;
  * @author Owen McMonagle
 
  * @see NetworkGlobals
+ * 
+ * @version 0.1
  */
 public final class PeerReceiver extends Thread
 {

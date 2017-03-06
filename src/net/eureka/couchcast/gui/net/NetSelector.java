@@ -22,11 +22,16 @@ import net.eureka.couchcast.gui.control.handlers.MoveHandler;
 
 /**
  * 
- * Small Menu which displays the available network interfaces to select. Only appears on first time start up,
- * or if the config file has been deleted.
+ * Small Menu which displays the available network interfaces to select. Only appears on first time start up, or if 
+ * the config file has been deleted or the network interface is null.
  * 
  * @author Owen McMonagle.
- *
+ * 
+ * @see Menu
+ * @see NetViewer
+ * @see NetworkGlobals
+ * 
+ * @version 0.1
  */
 public final class NetSelector extends Scene 
 { 

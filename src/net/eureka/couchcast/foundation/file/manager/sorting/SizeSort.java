@@ -16,11 +16,14 @@ import net.eureka.couchcast.mediaserver.NetworkHandler;
  * the clients with the new list.
  * 
  * @author Owen McMonagle.
+ * 
  * @see Sorter
  * @see SortImpl
  * @see FileFactory
  * @see NetworkHandler
  * @see DirectoryFactory
+ * 
+ * @version 0.1
  */
 public final class SizeSort extends Sorter 
 {

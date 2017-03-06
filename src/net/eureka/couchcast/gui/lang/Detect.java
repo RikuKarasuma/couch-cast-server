@@ -9,8 +9,11 @@ import net.eureka.couchcast.Static;
  * {@link Languages}.
  * 
  * @author Owen McMonagle.
+ * 
  * @see LanguageDelegator
  * @see Languages
+ * 
+ * @version 0.1
  */
 public final class Detect 
 {

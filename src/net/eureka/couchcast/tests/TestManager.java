@@ -3,9 +3,15 @@ package net.eureka.couchcast.tests;
 import java.util.ArrayList;
 
 /**
- * Runs each core unit test and prints whether or not the test has passed. 
- * @author Garak
+ * Runs each core unit test and prints whether or not the test has passed.
+ *  
+ * @author Owen McMonagle.
  *
+ * @see Testbase
+ * @see OOPinitiator
+ * @see DirectoryFactoryMonitor
+ * 
+ * @version 0.1
  */
 public final class TestManager 
 {

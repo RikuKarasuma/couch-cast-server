@@ -3,7 +3,7 @@ package net.eureka.couchcast;
 import java.sql.Timestamp;
 
 import net.eureka.couchcast.foundation.init.ApplicationGlobals;
-import net.eureka.couchcast.foundation.init.InitialiseFoundation;
+import net.eureka.couchcast.foundation.init.Bootstrap;
 import net.eureka.couchcast.foundation.init.NetworkGlobals;
 import net.eureka.couchcast.foundation.logging.Logger;
 import net.eureka.couchcast.gui.Menu;
@@ -12,36 +12,47 @@ import net.eureka.couchcast.mediaserver.NetworkHandler;
 import net.eureka.couchcast.mediaserver.discovery.PeerReceiver;
 
 /**
- * This is the starting point of the media server. Here each part is initialized and held as global objects so that they won't be Garbage 
- * Collected. Here is a list of each object that is initialized and their functions. </br>
+ * This is the starting point of the media server. Here each part is initialized and held as global objects so that 
+ * they won't be Garbage Collected. Here is a list of each object that is initialized and their functions. </br>
  * 
  * <pre>
- * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |Class|||||||||||||||||||Reference Name||||||||||||||Function/s||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |PeerReceiver||||||||||||discoveryServer|||||||||||||UPnP network discovery. Handles sending of Server I.P details to client.||||||||||||||||||||
- * |NetworkHandler||||||||||mediaServer|||||||||||||||||TCP/IP media server delegate. Handles receiving and verification of media server commands.||
- * |Tray||||||||||||||||||||taskBarTray|||||||||||||||||Desktop taskbar tray. Sets up taskbar and handles creation of the options menu.|||||||||||||
- * |InitialiseFoundation||||foundationServer||||||||||||Initializes logger, directory and configuration creation, file fetcher and the file server.|
- * |Menu||||||||||||||||||||Menu(Static)||||||||||||||||Handles gui creation and sets up all gui action listeners.||||||||||||||||||||||||||||||||||
- * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |Class|||||||||||||Reference Name||||||Function/s|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |PeerReceiver||||||discoveryServer|||||UPnP network discovery. Handles sending of Server I.P details to client.|||||
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |NetworkHandler||||mediaServer|||||||||TCP/IP media server delegate. Handles receiving and verification of media||||
+ * |||||||||||||||||||||||||||||||||||||||server commands.|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |Tray||||||||||||||taskBarTray|||||||||Desktop taskbar tray. Sets up taskbar and handles creation of the options||||
+ * |||||||||||||||||||||||||||||||||||||||menu.||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |Bootstrap|||||||||foundationServer||||Initializes logger, directory, configuration creation and the file fetcher.||
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |Menu||||||||||||||Menu(Static)||||||||Handles gui creation and sets up all gui action listeners.|||||||||||||||||||
+ * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
  * </pre>
- * The default server name is retrieved here via a method if it cannot be found within the configuration file on start up in the {@link InitialiseFoundation}
- * area.
+ * The default server name is retrieved here via a method if it cannot be found within the configuration file on start 
+ * up in the {@link Bootstrap} area.
  * 
- * Here would be the proper place to restart various components of the server as references need to be held to contain the object tree and this is
- * the top most level of the server. 
+ * Here would be the proper place to restart various components of the server as references need to be held to contain 
+ * the object tree and this is the top most level of the server. 
  * </br>
  * </br>
- * <h1> VM ARGUEMENTS: -Dfile.encoding=utf-8 -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 </br> Make sure these are run through the
- * start script and login script.</h1>
+ * <h1> VM ARGUEMENTS: -Dfile.encoding=utf-8 -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 </br> Make sure these are
+ * run through the start script and login script.</h1>
  * </br>
+ * 
  * @author Owen McMonagle.
+ * 
+ * 
  * @see PeerReceiver
  * @see Tray
- * @see InitialiseFoundation
+ * @see Bootstrap
  * @see NetworkHandler
  * @see Menu
+ * 
+ * @version 0.2
  */
  
 
@@ -73,7 +84,7 @@ public class Start
 	/**
 	 * Initialises logger, directory and configuration creation, file fetcher and the file server.
 	 */
-	private static InitialiseFoundation foundationSetup = null;
+	private static Bootstrap foundationSetup = null;
 	
 	/**
 	 * Program Starting Constructor. Initialises each object in a specific order because some components interlink at certain times.
@@ -92,7 +103,7 @@ public class Start
 			// Initialise task bar along with Settings GUI.
 			taskBarTray = new Tray();
 			// Initialise Logger, directory and configuration creation, file fetcher and server.
-			foundationSetup = new InitialiseFoundation();
+			foundationSetup = new Bootstrap();
 			// Append to log when the server has started.
 			Logger.append(INITIALISING_LOG_TEXT);
 			// If dhcp network has been found...

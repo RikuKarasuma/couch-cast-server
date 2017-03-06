@@ -30,7 +30,8 @@ import net.eureka.couchcast.mediaserver.playlist.PlaylistWorker;
  * {@link DirectoryFactory} signals playlist updates to each persistant {@link NetworkWorker} through a method called
  * signalPlaylistUpdate().
  * 
- * @author Owen McMonagle
+ * @author Owen McMonagle.
+ * 
  * @see NetworkImpl
  * @see NetworkWorker
  * @see PlaylistWorker
@@ -38,6 +39,8 @@ import net.eureka.couchcast.mediaserver.playlist.PlaylistWorker;
  * @see Receiver
  * @see ConnectionValidation
  * @see DirectoryFactory
+ * 
+ * @version 0.2
  */
 public final class NetworkHandler implements Runnable
 {

@@ -15,16 +15,18 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import net.eureka.couchcast.foundation.file.manager.DirectoryFactory;
 import net.eureka.couchcast.foundation.init.ApplicationGlobals;
-import net.eureka.couchcast.foundation.init.InitialiseFoundation;
+import net.eureka.couchcast.foundation.init.Bootstrap;
 import net.eureka.couchcast.gui.net.NetSelector;
 import net.eureka.couchcast.gui.playlist.PlaylistViewer;
 import net.eureka.couchcast.gui.tray.Tray;
 
 /**
  * Used as a starting point for all GUI interactions that doesn't have to do with {@link Tray}.
- * Javafx is used to provide a frontend suite. 
+ * Javafx is used to provide a frontend suite.
+ *  
  * @author Owen McMonagle.
- *
+ * 
+ * @version 0.1
  */
 public final class Menu extends Application
 {
@@ -36,7 +38,7 @@ public final class Menu extends Application
 	
 	
 	/**
-	 * Used to signal that no DHCP interface has been found in {@link InitialiseFoundation}.
+	 * Used to signal that no DHCP interface has been found in {@link Bootstrap}.
 	 */
 	private static boolean netError = false;
 	

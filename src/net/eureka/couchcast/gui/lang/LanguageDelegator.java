@@ -6,8 +6,11 @@ package net.eureka.couchcast.gui.lang;
  * return the appropriate string from {@link Languages}.
  *  
  * @author Owen McMonagle.
+ * 
  * @see Detect
  * @see Languages
+ * 
+ * @version 0.1
  */
 public final class LanguageDelegator 
 {

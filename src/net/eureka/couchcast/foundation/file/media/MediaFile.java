@@ -13,8 +13,11 @@ import net.eureka.couchcast.mediaserver.playlist.PlaylistWorker;
  * *** CLASS MUST BE CONSISTENT WITH CLIENTS CLASS VERSION *** 
  * 
  * @author Owen McMonagle.
+ * 
  * @see DirectoryFactory
  * @see PlaylistWorker
+ * 
+ * @version 0.2
  */
 public class MediaFile implements Serializable
 {

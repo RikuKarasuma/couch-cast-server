@@ -6,6 +6,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableView;
 
+/**
+ * Used by {@link PlaylistViewer}. Resizes the columns to 0.25 the full playlist width.
+ * 
+ * @author Owen McMonagle.
+ * 
+ * @see PlaylistViewer
+ * 
+ * @version 0.1
+ */
 public class PercentageTableColumn<S, T> extends javafx.scene.control.TableColumn<S, T> 
 {
 	

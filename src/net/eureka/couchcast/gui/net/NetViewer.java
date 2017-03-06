@@ -23,8 +23,11 @@ import net.eureka.couchcast.Static;
 
 /**
  * Creates and populates a list with Network Interfaces that are available for selection.
+ * 
  * @author Owen McMonagle.
  *
+ * @see NetSelector
+ * @version 0.1
  */
 public final class NetViewer
 {

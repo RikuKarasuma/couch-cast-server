@@ -11,8 +11,11 @@ import java.util.List;
  * been solved as of yet. This patch alleviates the issue for now.
  * 
  * @author Owen McMonagle.
+ * 
  * @see DirectoryFactory
  * @see FileFactory
+ * 
+ * @version 0.1
  */
 public class FileFactoryVerifier implements Runnable 
 {

@@ -8,8 +8,14 @@ import net.eureka.couchcast.foundation.file.manager.FileFactory;
 /**
  * Tests the {@link DirectoryFactory} by passing a directory to it for scanning and waits for 15 seconds
  * until displaying the found files.
- * @author Garak
+ * 
+ * @author Owen McMonagle.
+ * 
+ * @see Testbase
+ * @see TestManager
+ * @see DirectoryFactory
  *
+ * @version 0.2
  */
 public final class DirectoryFactoryMonitor extends TestBase
 {

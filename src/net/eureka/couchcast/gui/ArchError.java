@@ -11,13 +11,32 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import net.eureka.couchcast.Static;
 import net.eureka.couchcast.foundation.init.ApplicationGlobals;
 
+/**
+ * Creates a GUI messsage to inform the user that this is a 64 bit server and the operating system is 32 bit. Provides
+ * a link to download the 32 bit version. Created from {@link Menu}.
+ * 
+ * @author Owen McMonagle.
+ * 
+ * @see Menu
+ * 
+ * @version 0.1
+ */
 public final class ArchError extends Application 
 {
 	private final BorderPane CONTAINER = new BorderPane();
+	
+	/**
+	 * Test method.
+	 */
+	public static void main(String[] args)
+	{
+		launch(ArchError.class);
+	}
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception
@@ -39,7 +58,7 @@ public final class ArchError extends Application
 	{
 		
 		private final String ERROR_MESSAGE_STR = "This operating system is 32 bit. Please download the 32 \nbit version below.",
-							 DOWNLOAD_LINK_STR = "http://www.stackoverflow.com";
+							 DOWNLOAD_LINK_STR = "http://www.couchcastapp.com";
 		
 		private final Label ERROR_MESSAGE = new Label(ERROR_MESSAGE_STR);
 		private final Hyperlink DOWNLOAD_LINK = new Hyperlink(DOWNLOAD_LINK_STR);
@@ -61,8 +80,9 @@ public final class ArchError extends Application
 			this.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			ERROR_MESSAGE.setId("message");
+			ERROR_MESSAGE.setTextFill(Color.WHITE);
 			DOWNLOAD_LINK.setOnAction(LINK_LISTENER);
-			
+			DOWNLOAD_LINK.setTextFill(Color.RED);
 			CONTAINER.setId("container");
 			CONTAINER.setCenter(ERROR_FLOW_CONTAINER);
 		}

@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 
 import net.eureka.couchcast.Static;
 import net.eureka.couchcast.foundation.init.ApplicationGlobals;
-import net.eureka.couchcast.foundation.init.InitialiseFoundation;
+import net.eureka.couchcast.foundation.init.Bootstrap;
 import net.eureka.couchcast.foundation.init.NetworkGlobals;
 import net.eureka.couchcast.foundation.logging.Logger;
 import net.eureka.couchcast.gui.tray.Tray;
@@ -34,10 +34,12 @@ import net.eureka.couchcast.gui.tray.Tray;
  * 
  * @author Owen McMonagle.
  *
- * @see InitialiseFoundation 
+ * @see Bootstrap 
  * @see ApplicationGlobals
  * @see NetworkGlobals
  * @see Logger
+ * 
+ * @version 0.1
  */
 public final class Configuration
 {

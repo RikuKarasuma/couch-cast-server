@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
 import net.eureka.couchcast.foundation.init.ApplicationGlobals;
-import net.eureka.couchcast.foundation.init.InitialiseFoundation;
+import net.eureka.couchcast.foundation.init.Bootstrap;
 import net.eureka.utils.IO;
 
 /**
@@ -16,7 +16,9 @@ import net.eureka.utils.IO;
  * @author Owen McMonagle.
  *
  * @see ApplicationGlobals
- * @see InitialiseFoundation
+ * @see Bootstrap
+ * 
+ * @version 0.1
  */
 public final class Logger 
 {

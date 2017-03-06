@@ -23,6 +23,8 @@ import java.util.Enumeration;
  * 
  * @author Owen McMonagle
  *
+ *
+ * @version 0.2
  */
 public final class Static 
 {

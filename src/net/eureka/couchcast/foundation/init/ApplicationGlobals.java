@@ -19,23 +19,40 @@ import net.eureka.utils.Systems;
  * Contains global application variables described below:
  * <pre>
  *	Operating system - System the app is running on.
- *	Name* - App name, modified from {@link SettingsMenu} and used to identify the server over UDP/SSDP. {@link PeerReceiver} {@link Configuration} 
+ *
+ *	Name* - App name, modified from {@link SettingsMenu} and used to identify the server over UDP/SSDP. 
+ *	{@link PeerReceiver} {@link Configuration}
+ *
  *	Install directory path - Location of app.
+ *
  *	Version - App version.
+ *
  *	Process id* - App process id, gets saved to config file to be used by the Process killer during an installation or
  *	uninstallation. 
- *	Application directory - Location of app user data (\<USER>\Couch Cast\). {@link Configuration} {@link Logger} {@link InitialiseFoundation}.
+ *
+ *	Application directory - Location of app user data (\<USER>\Couch Cast\). {@link Configuration} {@link Logger} 
+ *	{@link Bootstrap}.
+ *
  *	Log encoding - App encoding, for config and log file. {@link Configuration} {@link Logger}.
- *	Monitored directories* - Each directory the app has to monitor via {@link DirectoryFactory} and {@link DirectoryScanner}. {@link Configuration}
+ *
+ *	Monitored directories* - Each directory the app has to monitor via {@link DirectoryFactory} and 
+ *	{@link DirectoryScanner}. {@link Configuration}
+ *
  *	Search delay* - The delay between each media file found in {@link DirectoryScanner}.
+ *
  *	Update delay* - The delay between each playlist update in {@link DirectoryFactory}, {@link FileFactory}.
+ *
  *	Deep search* - Flag to signal whether or not the app should search directories recursively. {@link DirectoryScanner}.
+ *
  *	Minimized windows* - Flag to signal whether or not the app should minimize all other desktop windows when the 
  *	play button is pressed.
+ *
  *	Music mode* - Flag to signal that the app is in music mode and that the OOP window should be hidden.
  * </pre>
  * 
  * The majority of these variables are saved to the {@link Configuration} file and are marked with * to symbolize such.
+ * 
+ * @author Owen McMonagle.
  * 
  * @see SettingsMenu
  * @see Configuration
@@ -43,10 +60,10 @@ import net.eureka.utils.Systems;
  * @see DirectoryFactory
  * @see DirectoryScanner
  * @see FileFactory
- * @see InitialiseFoundation
+ * @see Bootstrap
  * @see PeerReceiver
- * @author Owen McMonagle.
- *
+ * 
+ * @version 0.7
  */
 public final class ApplicationGlobals 
 {
