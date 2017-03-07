@@ -15,7 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import net.eureka.couchcast.Start;
 import net.eureka.couchcast.foundation.init.NetworkGlobals;
-import net.eureka.couchcast.gui.Menu;
+import net.eureka.couchcast.gui.AppStage;
 import net.eureka.couchcast.gui.control.WindowControl;
 import net.eureka.couchcast.gui.control.handlers.DoubleClickSizeHandler;
 import net.eureka.couchcast.gui.control.handlers.MoveHandler;
@@ -27,7 +27,7 @@ import net.eureka.couchcast.gui.control.handlers.MoveHandler;
  * 
  * @author Owen McMonagle.
  * 
- * @see Menu
+ * @see AppStage
  * @see NetViewer
  * @see NetworkGlobals
  * 
@@ -68,7 +68,7 @@ public final class NetSelector extends Scene
 	private StackPane root = null;
 	private BorderPane background = new BorderPane();
 	
-	private Menu parent = null;
+	private AppStage parent = null;
 	
 	//private final Image image = new Image(getClass().getResourceAsStream("image/logo_text_huge.png"));
 	
@@ -79,7 +79,7 @@ public final class NetSelector extends Scene
 	
 	private final FlowPane buttonContainer = new FlowPane(acceptButton, exitButton), bottomContainer = new FlowPane(Orientation.VERTICAL, buttonContainer);
 	
-	public NetSelector(Stage parent_stage, Menu parent_container)
+	public NetSelector(Stage parent_stage, AppStage parent_container)
 	{
 		super(new StackPane());
 		this.getStylesheets().add(getClass().getResource("../application.css").toExternalForm());

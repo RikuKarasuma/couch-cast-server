@@ -91,7 +91,7 @@ public final class SettingsMenu extends Scene
 	
 	private static String lastOpenedDirectory = "";
 	
-	private Menu parent = null;
+	private AppStage parent = null;
 	
 	private final EventHandler<ActionEvent> BACK_LISTENER = new EventHandler<ActionEvent>()
 	{
@@ -278,7 +278,7 @@ public final class SettingsMenu extends Scene
 	
 	private Stage parentStage = null;
 	
-	public SettingsMenu(Stage parent_stage, Menu settings_parent) 
+	public SettingsMenu(Stage parent_stage, AppStage settings_parent) 
 	{
 		super(new StackPane());
 		this.parentStage = parent_stage;

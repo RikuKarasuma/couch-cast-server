@@ -13,21 +13,21 @@ import javax.swing.JOptionPane;
 
 import net.eureka.couchcast.foundation.init.ApplicationGlobals;
 import net.eureka.couchcast.foundation.init.NetworkGlobals;
-import net.eureka.couchcast.gui.Menu;
+import net.eureka.couchcast.gui.AppStage;
 import net.eureka.couchcast.gui.lang.LanguageDelegator;
 import net.eureka.couchcast.gui.lang.Languages;
 
 /**
- * Displays and handles the Desktop Tray Icon. Used to create the settings window ( i.e {@link Menu} ) whenever a 
- * right-click has been detected over the icon image. The Tray is also used to display informational text to the user. e.g When a 
- * new client connection is made or new folder has been imported, this is done through static methods that can be called from anywhere,
- * once the Tray object has been initialized.
+ * Displays and handles the Desktop Tray Icon. Used to create the settings window ( i.e {@link AppStage} ) whenever a 
+ * right-click has been detected over the icon image. The Tray is also used to display informational text to the user.
+ * e.g When a new client connection is made or new folder has been imported, this is done through static methods that 
+ * can be called from anywhere, once the Tray object has been initialized.
  * 
  * @author Owen McMonagle
  * 
- * @see Menu
+ * @see AppStage
  * 
- * @version 0.2
+ * @version 0.3
  */
 public final class Tray
 {
@@ -53,7 +53,7 @@ public final class Tray
 	 */
 	private static boolean initialised = false;
 	
-	private static Menu menu = null;
+	private static AppStage menu = null;
 	
 	/**
 	 * Mouse listener, handles right click events on the TrayIcon. Once the icon has been
@@ -78,12 +78,15 @@ public final class Tray
 	 * Tray constructor, only needs to be called once. Attempts to set up the TrayIcon object if
 	 * the operating system supports a system tray. Once the TrayIcon has been created, it is then
 	 * added to the SystemTray.
+	 * 
+	 * @param AppStage - FX GUI controller, creates menus based on needs.
 	 */
-	public Tray()
+	public Tray(AppStage parent)
 	{
 		// If the tray has not been initialized before and is supported by the OS...
 		if(!initialised && SystemTray.isSupported())
 		{
+			menu = parent;
 			// Attempt to set up TrayIcon object.
 			setUp();
 			// Attempt to add TrayIcon object to the System.
@@ -107,7 +110,7 @@ public final class Tray
 	{
 		System.out.println(ICON_PATH);
 		// Instantiate the TrayIcon object with the retrieved Icon image and server name.
-		icon = new TrayIcon(image.getImage(), NetworkGlobals.getServerName().toString());
+		icon = new TrayIcon(image.getImage(), NetworkGlobals.getServerName());
 		// Set TrayIcon to auto resize the attached image.
 		icon.setImageAutoSize(true);
 		// Add a mouse listener to the Icon for user input.
@@ -185,8 +188,10 @@ public final class Tray
 	 */
 	public static void updateToolTipTitle()
 	{
-		// Update TrayIcon tooltip with the new server name.
-		icon.setToolTip(ApplicationGlobals.getNameAndVersion()+": "+NetworkGlobals.getServerName().toString());
+		String name_ver = ApplicationGlobals.getNameAndVersion(), net_name = NetworkGlobals.getServerName();
+		if(icon != null && net_name != null )
+			// Update TrayIcon tooltip with the new server name.
+			icon.setToolTip(name_ver + ":" + net_name);
 	}
 	
 	/**
@@ -196,11 +201,6 @@ public final class Tray
 	public static ImageIcon getIconImage()
 	{
 		return image;
-	}
-	
-	public static void setGUI(Menu gui_menu)
-	{
-		menu = gui_menu;
 	}
 	
 	public static void updatePlaylist()

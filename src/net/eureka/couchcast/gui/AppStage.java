@@ -26,9 +26,9 @@ import net.eureka.couchcast.gui.tray.Tray;
  *  
  * @author Owen McMonagle.
  * 
- * @version 0.1
+ * @version 0.2
  */
-public final class Menu extends Application
+public final class AppStage extends Application
 {
 	
 	/**
@@ -43,11 +43,7 @@ public final class Menu extends Application
 	private static boolean netError = false;
 	
 	
-	/**
-	 * Primary application stage.
-	 */
-	private Stage menu = null;
-	
+	private Stage menu;
 	
 	/**
 	 * Main Menu.
@@ -59,7 +55,39 @@ public final class Menu extends Application
 	 */
 	private SettingsMenu settings;
 	
+	/**
+	 * Desktop task bar tray icon. Sets up task bar icon and handles creation of the options menu.
+	 */
+	@SuppressWarnings("unused")
+	private Tray tray;
 	
+	/**
+	 * Initialises the GUI. 
+	 * <br><br>
+	 *	If arch_error is true, launches error message stating that you have the 
+	 *	wrong architecture for your system. i.e x64 on x86.
+	 * <br><br>
+	 * 	If net_error is true, launches the network interface selection menu.
+	 * 
+	 *  
+	 * @param arch_error - Whether or not an arch error has occurred
+	 * @param net_error - Whether or not a network error has occurred
+	 */
+	public AppStage(boolean arch_error, boolean net_error)
+	{
+		if(!arch_error)
+		{
+			netError = net_error;
+			launch(AppStage.class);
+		}
+		else
+			launch(ArchError.class);
+	}
+	
+	public AppStage()
+	{
+		
+	}
 	
 	/**
 	 * Sets up the initial application menus. Starts network interface selection,
@@ -133,7 +161,7 @@ public final class Menu extends Application
 			}
 		});
 		// Gives the Tray object a pointer to the main menu.
-		Tray.setGUI(this);
+		tray = new Tray(this);
 	}
 
 	/**
@@ -176,12 +204,12 @@ public final class Menu extends Application
 	{
 		if(mainMenu)
 		{
-			main = new MainMenu(menu, Menu.this);
+			main = new MainMenu(menu, AppStage.this);
 			menu.setScene(main);
 		}
 		else
 		{
-			settings = new SettingsMenu(menu, Menu.this);
+			settings = new SettingsMenu(menu, AppStage.this);
 			menu.setScene(settings);
 		}
 		menu.show();
@@ -224,29 +252,6 @@ public final class Menu extends Application
 	{
 		if(main != null)
 			main.updatePlaylist();
-	}
-	
-	/**
-	 * Initialises the GUI. 
-	 * <br><br>
-	 *	If arch_error is true, launches error message stating that you have the 
-	 *	wrong architecture for your system. i.e x64 on x86.
-	 * <br><br>
-	 * 	If net_error is true, launches the network interface selection menu.
-	 * 
-	 *  
-	 * @param arch_error - Whether or not an arch error has occurred
-	 * @param net_error - Whether or not a network error has occurred
-	 */
-	public static void initialise(boolean arch_error, boolean net_error)
-	{
-		if(!arch_error)
-		{
-			netError = net_error;
-			launch(Menu.class);
-		}
-		else
-			launch(ArchError.class);
 	}
 
 	/**

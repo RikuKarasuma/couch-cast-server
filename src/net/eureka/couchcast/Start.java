@@ -6,7 +6,7 @@ import net.eureka.couchcast.foundation.init.ApplicationGlobals;
 import net.eureka.couchcast.foundation.init.Bootstrap;
 import net.eureka.couchcast.foundation.init.NetworkGlobals;
 import net.eureka.couchcast.foundation.logging.Logger;
-import net.eureka.couchcast.gui.Menu;
+import net.eureka.couchcast.gui.AppStage;
 import net.eureka.couchcast.gui.tray.Tray;
 import net.eureka.couchcast.mediaserver.NetworkHandler;
 import net.eureka.couchcast.mediaserver.discovery.PeerReceiver;
@@ -21,15 +21,12 @@ import net.eureka.couchcast.mediaserver.discovery.PeerReceiver;
  * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
  * |PeerReceiver||||||discoveryServer|||||UPnP network discovery. Handles sending of Server I.P details to client.|||||
  * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |NetworkHandler||||mediaServer|||||||||TCP/IP media server delegate. Handles receiving and verification of media||||
+ * |NetworkHandler||||clientHandler|||||||TCP/IP media server delegate. Handles receiving and verification of media||||
  * |||||||||||||||||||||||||||||||||||||||server commands.|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
  * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |Tray||||||||||||||taskBarTray|||||||||Desktop taskbar tray. Sets up taskbar and handles creation of the options||||
- * |||||||||||||||||||||||||||||||||||||||menu.||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+ * |Bootstrap|||||||||bootstrap|||||||||||Initializes logger, directory, configuration creation and the file fetcher.||
  * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |Bootstrap|||||||||foundationServer||||Initializes logger, directory, configuration creation and the file fetcher.||
- * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
- * |Menu||||||||||||||Menu(Static)||||||||Handles gui creation and sets up all gui action listeners.|||||||||||||||||||
+ * |AppStage||||||||||gui|||||||||||||||||Handles menus creation as well as manages the desktop tray.||||||||||||||||||
  * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
  * </pre>
  * The default server name is retrieved here via a method if it cannot be found within the configuration file on start 
@@ -50,9 +47,9 @@ import net.eureka.couchcast.mediaserver.discovery.PeerReceiver;
  * @see Tray
  * @see Bootstrap
  * @see NetworkHandler
- * @see Menu
+ * @see AppStage
  * 
- * @version 0.2
+ * @version 0.3
  */
  
 
@@ -77,14 +74,15 @@ public class Start
 	private static NetworkHandler clientHandler = null;
 	
 	/**
-	 * Desktop task bar tray icon. Sets up task bar icon and handles creation of the options menu.
+	 * A javafx gui app. Creates the main and options menus. Also creates the {@link Tray} icon which manages the
+	 * visibility of the {@link AppStage}. 
 	 */
-	private static Tray taskBarTray = null;
+	private static AppStage gui = null;
 	
 	/**
 	 * Initialises logger, directory and configuration creation, file fetcher and the file server.
 	 */
-	private static Bootstrap foundationSetup = null;
+	private static Bootstrap bootstrap = null;
 	
 	/**
 	 * Program Starting Constructor. Initialises each object in a specific order because some components interlink at certain times.
@@ -95,24 +93,22 @@ public class Start
 	public Start() 
 	{
 		if(!Static.is64BitArch())
-			Menu.initialise(true, false);
+			new AppStage(true, false);
 		else
 		{		
 			// Initialise server name with DHCP interface MAC address. 
 			setUpServerName();
-			// Initialise task bar along with Settings GUI.
-			taskBarTray = new Tray();
 			// Initialise Logger, directory and configuration creation, file fetcher and server.
-			foundationSetup = new Bootstrap();
+			bootstrap = new Bootstrap();
 			// Append to log when the server has started.
 			Logger.append(INITIALISING_LOG_TEXT);
 			// If dhcp network has been found...
-			if(!foundationSetup.hasNoDHCPNetwork())
+			if(!bootstrap.hasNoDHCPNetwork())
 				// start networking.
 				startNetworking();
 			// Initialise menu.
-			Menu.initialise(false, foundationSetup.hasNoDHCPNetwork());
-			//if(foundationSetup.hasNoDHCPNetwork())
+			gui = new AppStage(false, bootstrap.hasNoDHCPNetwork());
+			
 		}
 	}
 	

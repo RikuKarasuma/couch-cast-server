@@ -20,8 +20,7 @@ import net.eureka.utils.Systems;
  * <pre>
  *	Operating system - System the app is running on.
  *
- *	Name* - App name, modified from {@link SettingsMenu} and used to identify the server over UDP/SSDP. 
- *	{@link PeerReceiver} {@link Configuration}
+ *	Name* - App name.
  *
  *	Install directory path - Location of app.
  *

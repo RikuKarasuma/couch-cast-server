@@ -61,7 +61,7 @@ public final class MainMenu extends Scene
 	private StackPane root = null;
 	private BorderPane background = new BorderPane();
 	
-	private Menu parent = null;
+	private AppStage parent = null;
 	
 	//private final Image image = new Image(getClass().getResourceAsStream("image/logo_text_huge.png"));
 	
@@ -74,7 +74,7 @@ public final class MainMenu extends Scene
 	
 	private final FlowPane buttonContainer = new FlowPane(loadButton, settingsButton, helpButton, shutdownButton), headingContainer = new FlowPane(Orientation.VERTICAL, heading, buttonContainer);
 	
-	MainMenu(Stage parent_stage, Menu parent_container)
+	MainMenu(Stage parent_stage, AppStage parent_container)
 	{
 		super(new StackPane());
 		this.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

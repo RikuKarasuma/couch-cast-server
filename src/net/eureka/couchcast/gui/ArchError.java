@@ -18,11 +18,11 @@ import net.eureka.couchcast.foundation.init.ApplicationGlobals;
 
 /**
  * Creates a GUI messsage to inform the user that this is a 64 bit server and the operating system is 32 bit. Provides
- * a link to download the 32 bit version. Created from {@link Menu}.
+ * a link to download the 32 bit version. Created from {@link AppStage}.
  * 
  * @author Owen McMonagle.
  * 
- * @see Menu
+ * @see AppStage
  * 
  * @version 0.1
  */
