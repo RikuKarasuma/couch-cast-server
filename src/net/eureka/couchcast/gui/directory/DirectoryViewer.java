@@ -22,11 +22,30 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import net.eureka.couchcast.foundation.config.Configuration;
+import net.eureka.couchcast.foundation.file.manager.DirectoryFactory;
+import net.eureka.couchcast.foundation.file.manager.FileFactory;
 import net.eureka.couchcast.foundation.init.ApplicationGlobals;
+import net.eureka.couchcast.gui.SettingsMenu;
 import net.eureka.couchcast.gui.lang.LanguageDelegator;
 import net.eureka.couchcast.gui.lang.Languages;
 import net.eureka.couchcast.gui.playlist.PercentageTableColumn;
 
+/**
+ * Instantiated and managed from {@link SettingsMenu}. Creates a list of monitored directories to be manipulated by
+ * controls found in the settings menu. The list of monitored directories is saved/read via the {@link Configuration}
+ * file and loaded into the {@link ApplicationGlobals}. These directories are used by the {@link DirectoryFactory} to 
+ * find media files and add them to the {@link FileFactory}. 
+ * 
+ * @author Owen McMonagle.
+ * 
+ * @see SettingsMenu
+ * @See Configuration
+ * @see ApplicationGlobals
+ * @see DirectoryFactory
+ * @see FileFactory
+ * 
+ * @version 0.1
+ */
 public final class DirectoryViewer
 {
 	
@@ -136,20 +155,20 @@ public final class DirectoryViewer
 	{
 		directoryList.getColumns().addListener(new ListChangeListener<Object>()
 		{
-	        @Override
-	        public void onChanged(Change<?> change) 
-	        {
-	            directoryList.resizeColumn(directoryList.getColumns().get(0), 1);
-            }
-	    });
+			@Override
+			public void onChanged(Change<?> change) 
+			{
+				directoryList.resizeColumn(directoryList.getColumns().get(0), 1);
+			}
+		});
 	}
 	
-	public String[] selectedIndexes()
+	public String[] selectedPaths()
 	{
-		return ListHandler.indexes;
+		return ListHandler.paths;
 	}
 	
-	public void resetSelectedIndexes()
+	public void resetSelectedPaths()
 	{
 		directoryList.getItems().removeAll(ListHandler.selectedItems);
 		reset();
@@ -164,10 +183,20 @@ public final class DirectoryViewer
 	private void reset()
 	{
 		setUpData();
-		ListHandler.indexes = null;
+		ListHandler.paths = null;
 		new Configuration(true);
 	}
 	
+	/**
+	 * Used to provide a POJO for javafx's {@link ObservableList}. To avoid extra memory consumption, I try to 
+	 * use byte arrays that contain UTF-8 strings where ever I can.
+	 * 
+	 * @author Owen McMonagle.
+	 * 
+	 * @version 0.1
+	 * 
+	 * @see DirectoryViewers
+	 */
 	public static class DirectoryItem
 	{
 		private SimpleStringProperty name;
@@ -228,9 +257,20 @@ public final class DirectoryViewer
 		}
 	}
 	
+	/**
+	 * An event handler for selecting/removing monitored directories on the {@link ObservableList}. Also used by 
+	 * {@link SettingsMenu} to remove monitored directories from {@link ApplicationGlobals}. 
+	 * 
+	 * @author Owen McMonagle.
+	 * 
+	 * @version 0.2
+	 * 
+	 * @see DirectoryViewer
+	 * @see SettingsMenu
+	 */
 	private static class ListHandler implements EventHandler<MouseEvent> 
 	{
-		private static String[] indexes = null;
+		private static String[] paths = null;
 		private static ObservableList<DirectoryItem> selectedItems = null;
 
 		@Override
@@ -245,10 +285,10 @@ public final class DirectoryViewer
 		private static void setIndexes()
 		{
 			final int size = selectedItems.size();
-			indexes = new String[size];
+			paths = new String[size];
 			
 			for(int i = 0; i < size; i++ )
-				indexes[i] = selectedItems.get(i).getPath();
+				paths[i] = selectedItems.get(i).getPath();
 		}
     }
 }

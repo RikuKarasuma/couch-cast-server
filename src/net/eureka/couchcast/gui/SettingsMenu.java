@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import net.eureka.couchcast.foundation.config.Configuration;
 import net.eureka.couchcast.foundation.file.manager.DirectoryFactory;
+import net.eureka.couchcast.foundation.file.manager.DirectoryScanner;
 import net.eureka.couchcast.foundation.init.ApplicationGlobals;
 import net.eureka.couchcast.foundation.init.NetworkGlobals;
 import net.eureka.couchcast.gui.control.WindowControl;
@@ -17,6 +18,7 @@ import net.eureka.couchcast.gui.directory.DirectoryViewer;
 import net.eureka.couchcast.gui.lang.LanguageDelegator;
 import net.eureka.couchcast.gui.lang.Languages;
 import net.eureka.couchcast.gui.tray.Tray;
+import net.eureka.couchcast.mediaserver.authentication.PasswordCreation;
 import net.eureka.security.sha.Sha3;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -38,6 +40,46 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+
+/**
+ * Instantiated and managed from {@link AppStage}. This class handles the creation and managing of each Javafx
+ * component related to the settings menu. One notable component is the {@link DirectoryViewer}; which allows for
+ * the viewing of monitored directories. Buttons are available to add, remove or clear the directory list as well
+ * as sliders for managing the file search delay and file update delay. These sliders are important for real time
+ * performance tuning in lower end PCs.
+ * <br>
+ * <br>
+ * There are two text boxes, one for the server name which is stored in {@link NetworkGlobals} and the other for
+ * the network password which is stored into a file using a SHA-384 key ({@link PasswordCreation}). The submit 
+ * button only applies to these two text boxes, everything else is saved after each action.
+ * <br>
+ * <br>
+ * Three checkboxes exist to provide flexibility with different functionalities. These are:
+ * <pre>
+ * 	Minimize windows: If checked, the OOP player will minimize each window that is on the desktop that can be 
+ * 	minimized. This is done through through the {@link Configuration} file and located within 
+ * 	{@link ApplicationGlobals}.  
+ * 
+ * 	Deep search: If checked, each {@link DirectoryScanner} will recursively search folders for media, this is
+ * 	an expensive operation and for lower end machines, it might be best to add folders directly. Saved to the
+ * 	{@link Configuration} file and can be retrieved via P{@link ApplicationGlobals}.
+ * 
+ * 	Music mode: If checked, the OOP player will keep the media window hidden so that the audio can play in the
+ * 	background. This setting can be modified from the clients. Saved to the {@link Configuration} file and can
+ * 	be retrieved via {@link ApplicationGlobals}.
+ *	</pre>
+ * 
+ * @author Owen McMonagle.
+ * 
+ * @see AppStage
+ * @see ApplicationGlobals
+ * @see DirectoryViewer
+ * @see NetworkGlobals
+ * @see PasswordCreation
+ * @see Configuration
+ * 
+ * @version 0.1
+ */
 public final class SettingsMenu extends Scene
 {
 	/**
@@ -202,12 +244,12 @@ public final class SettingsMenu extends Scene
 		@Override
 		public final void handle(ActionEvent e) 
 		{
-			ArrayList<String> indexes = null;
+			ArrayList<String> removed_monitored_paths = null;
 			try
 			{
-				indexes = new ArrayList<String>(Arrays.asList(directoryList.selectedIndexes()));
-				ApplicationGlobals.getMonitoredList().removeAll(indexes);
-				directoryList.resetSelectedIndexes();
+				removed_monitored_paths = new ArrayList<String>(Arrays.asList(directoryList.selectedPaths()));
+				ApplicationGlobals.getMonitoredList().removeAll(removed_monitored_paths);
+				directoryList.resetSelectedPaths();
 				DirectoryFactory.reinitialize();
 			}
 			catch(NullPointerException e1)
@@ -230,22 +272,21 @@ public final class SettingsMenu extends Scene
 	};
 	
 	private final ChangeListener<Number> searchSliderListener = new ChangeListener<Number>() 
-    {
-        public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) 
-        {
-        	ApplicationGlobals.setSearchDelay(new_val.floatValue()*1000);
-        	new Configuration(true);
-        }
-    },
-    
-    updateSliderListener = new ChangeListener<Number>() 
-    {
-        public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) 
-        {
-        	ApplicationGlobals.setUpdateDelay(new_val.floatValue()*1000);
-        	new Configuration(true);
-        }
-    }; 
+	{
+		public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) 
+		{
+			ApplicationGlobals.setSearchDelay(new_val.floatValue()*1000);
+			new Configuration(true);
+		}
+	},
+	updateSliderListener = new ChangeListener<Number>() 
+	{
+		public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) 
+		{
+			ApplicationGlobals.setUpdateDelay(new_val.floatValue()*1000);
+			new Configuration(true);
+		}
+	};
 
 	
 	private Label directoryLabel = new Label(CONFIG_INFO_STRING),
@@ -341,13 +382,13 @@ public final class SettingsMenu extends Scene
 	
 	private void setUpSearchSlider()
 	{
-	    searchSlider.setShowTickMarks(true);
-	    searchSlider.setShowTickLabels(true);
-	    searchSlider.setMajorTickUnit(0.1f);
-	    searchSlider.setBlockIncrement(0.01f);
-	    searchSlider.setSnapToTicks(true);
-	    searchSlider.setOrientation(Orientation.HORIZONTAL);
-	    searchSlider.valueProperty().addListener(searchSliderListener);
+		searchSlider.setShowTickMarks(true);
+		searchSlider.setShowTickLabels(true);
+		searchSlider.setMajorTickUnit(0.1f);
+		searchSlider.setBlockIncrement(0.01f);
+		searchSlider.setSnapToTicks(true);
+		searchSlider.setOrientation(Orientation.HORIZONTAL);
+		searchSlider.valueProperty().addListener(searchSliderListener);
 	}
 	
 	private void setUpUpdateSlider()

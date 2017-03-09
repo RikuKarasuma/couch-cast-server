@@ -36,8 +36,7 @@ import net.eureka.couchcast.mediaserver.discovery.PeerReceiver;
  * the object tree and this is the top most level of the server. 
  * </br>
  * </br>
- * <h1> VM ARGUEMENTS: -Dfile.encoding=utf-8 -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 </br> Make sure these are
- * run through the start script and login script.</h1>
+ * <h1> VM Arguements: -Dfile.encoding=utf-8 -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 </br> </h1>
  * </br>
  * 
  * @author Owen McMonagle.
@@ -54,7 +53,7 @@ import net.eureka.couchcast.mediaserver.discovery.PeerReceiver;
  
 
 @SuppressWarnings("unused")
-public class Start 
+public final class Start 
 {
 	/**
 	 * Used for time stamping the log with the new starting time. 
@@ -90,7 +89,7 @@ public class Start
 	 * server starting time to file. If the Logger was called before InitialiseFoundation was created then the server would crash 
 	 * because the Logger was not set up. Below has each line is explained.    
 	 */
-	public Start() 
+	private Start() 
 	{
 		if(!Static.is64BitArch())
 			new AppStage(true, false);

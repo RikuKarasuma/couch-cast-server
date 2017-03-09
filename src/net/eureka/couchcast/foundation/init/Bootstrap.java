@@ -1,6 +1,7 @@
 package net.eureka.couchcast.foundation.init;
 
 import java.io.File;
+import java.net.InetAddress;
 
 import net.eureka.couchcast.Static;
 import net.eureka.couchcast.foundation.config.Configuration;
@@ -12,35 +13,57 @@ import net.eureka.utils.IO;
 
 
 /**
- * Handles the creation of the File Manager, File server, Home folder path(In \USERNAME\PC-Cast\), Logger, Start up script creation and configuration file creation.
- * This is merely a launching pad for the lower foundation level of the server and should only need to be created once per server instance.
+ * This class bootstraps the foundation of the media server. Responsiblities are as follows:
+ * <pre>
+ * 	Creates and sets application directory ("USERNAME\Couch Cast"). {@link ApplicationGlobals}
+ * 	Creates the default monitored directory ("USERNAME\Couch Cast\Monitored").
+ * 	Instantiates the {@link Logger}.
+ * 	Reads the {@link Configuration} file.
+ * 	Checks if the DHCP activated interface is null. This is used by {@link Start} to determine if we have a network.
+ * 	Prints starting information(O.S to log.
+ * 	Checks if any directories have been read from the config file. If none are found, adds the default.
+ * 	Instantiates the {@link DirectoryFactory}.
+ * </pre>
  * 
- * MUST BE CALLED BEFORE PEER RECEIVER BUT AFTER TRAY. This class bootstraps most of foundation server so that each other independent Thread can operate around it.
- *  
+ * <br>
+ * Must be called before networking and gui creation for proper initialization. 
+ * 
  * @author Owen McMonagle.
  *
  * @see ApplicationGlobals
  * @see InitialiseNetwork
  * @see Logger
- * @see Initialiser
  * @see Configuration
  * @see FileServer
  * @see DirectoryFactory  
+ * @see Start
  * 
- * @version 0.1
+ * @version 0.2
  */
 public final class Bootstrap 
 {
 
+	/**
+	 * Used to determine if we have a DHCP activated interface on start up. This is determined by the
+	 * {@link Configuration} file reading the interface name and correlating it with the list of 
+	 * interfaces found in {@link Static}. The {@link InetAddress} to that interface is then set within 
+	 * {@link NetworkGlobals}.
+	 */
 	private boolean noDhcpNetwork = false;
 	
 	
 	/**
-	 * Server foundation constructor. Handles the set up of the Application directory, Download directory, ApplicationGlobals, Logger, Initialiser(For creating start up script on login),
-	 * configuration file, file server and file fetcher. 
-	 * 
-	 * MUST BE CALLED BEFORE PEER RECEIVER BUT AFTER TRAY. This class bootstraps most of foundation server so that each other independent Thread can operate around it.
-	 * 
+	 * Responsibilities: 
+	 *<pre>
+	 * 	Creates and sets application directory ("USERNAME\Couch Cast"). {@link ApplicationGlobals}
+	 * 	Creates the default monitored directory ("USERNAME\Couch Cast\Monitored").
+	 * 	Instantiates the {@link Logger}.
+	 * 	Reads the {@link Configuration} file.
+	 * 	Checks if the DHCP activated interface is null. This is used by {@link Start} to determine if we have a network.
+	 * 	Prints starting information(O.S to log.
+	 * 	Checks if any directories have been read from the config file. If none are found, adds the default.
+	 * 	Instantiates the {@link DirectoryFactory}.
+	 * </pre>
 	 */
 	public Bootstrap() 
 	{
@@ -59,7 +82,7 @@ public final class Bootstrap
 		// Create default application directory.
 		final boolean directory_created = IO.createDirectory(directory_path);
 		// Create default download directory.
-		final boolean download_directory_created = IO.createDirectory(monitored_path);
+		final boolean monitored_directory_created = IO.createDirectory(monitored_path);
 		// Set application directory path as global in ApplicationGlobals.
 		ApplicationGlobals.setApplicationDirectory(directory_path.toString()+File.separator);
 		// Create instance of logger to set it up.
@@ -72,7 +95,7 @@ public final class Bootstrap
 		if(NetworkGlobals.getDhcpNetwork() == null)
 			noDhcpNetwork = true;
 		// Print initial log results.
-		Logger.append(new StringBuffer(LanguageDelegator.getLanguageOfComponent(Languages.LOG_SYSTEM_DETECTION) + ApplicationGlobals.getOperatingSystem().toString()), new StringBuffer(LanguageDelegator.getLanguageOfComponent(Languages.LOG_APPLICATION_DIRECTORY)+Boolean.toString(directory_created)), new StringBuffer(LanguageDelegator.getLanguageOfComponent(Languages.LOG_DOWNLOAD_DIRECTORY)+Boolean.toString(download_directory_created)), new StringBuffer(LanguageDelegator.getLanguageOfComponent(Languages.LANGUAGE)+Static.getSystemLocale()));
+		Logger.append(new StringBuffer(LanguageDelegator.getLanguageOfComponent(Languages.LOG_SYSTEM_DETECTION) + ApplicationGlobals.getOperatingSystem().toString()), new StringBuffer(LanguageDelegator.getLanguageOfComponent(Languages.LOG_APPLICATION_DIRECTORY)+Boolean.toString(directory_created)), new StringBuffer(LanguageDelegator.getLanguageOfComponent(Languages.LOG_DOWNLOAD_DIRECTORY)+Boolean.toString(monitored_directory_created)), new StringBuffer(LanguageDelegator.getLanguageOfComponent(Languages.LANGUAGE)+Static.getSystemLocale()));
 		if(ApplicationGlobals.getMonitoredSize() == 0)
 			// Set monitored directory as global in ApplicationGlobals.
 			ApplicationGlobals.addMonitoredDirectory(monitored_path.toString());
@@ -81,6 +104,10 @@ public final class Bootstrap
 		
 	}
 	
+	/**
+	 * Used to determine if we have a DHCP activated interface on startup.
+	 * @return Boolean - True if we have no DHCP interface, false otherwise.
+	 */
 	public boolean hasNoDHCPNetwork()
 	{
 		return noDhcpNetwork;
