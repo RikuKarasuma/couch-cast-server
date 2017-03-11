@@ -185,7 +185,7 @@ public final class SettingsMenu extends Scene
 			{
 				lastOpenedDirectory = choosen_dir.getAbsolutePath();
 				ApplicationGlobals.addMonitoredDirectory(lastOpenedDirectory);
-				directoryList.setUpData();
+				directoryList.load();
 				directoryChanged = true;
 				new Configuration(true);
 				DirectoryFactory.initialise();

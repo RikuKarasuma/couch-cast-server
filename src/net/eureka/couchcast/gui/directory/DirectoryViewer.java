@@ -65,11 +65,34 @@ public final class DirectoryViewer
 		LanguageDelegator.getLanguageOfComponent(Languages.NUMBER),
 	};
 	
+	/**
+	 * Table view that contains each directory as a list. Each directory is denoted by the object 
+	 * {@link DirectoryItem}.
+	 */
 	private final TableView<DirectoryItem> directoryList = new TableView<DirectoryItem>();
 	
+	/**
+	 * An {@link EventHandler} for the directoryList table view.
+	 */
 	private final ListHandler listHandler = new ListHandler();
 	
+	/**
+	 * Sets up 
+	 * @param gui_scene
+	 */
 	public DirectoryViewer(BorderPane gui_scene) 
+	{
+		setUpDirectoryList();
+		load();
+		setUpColumns();
+		addColumnMonitor();
+		gui_scene.setCenter(this.setUpScroller());
+	}
+	
+	/**
+	 * Sets up the CSS id, selection model, width, height, resize policy, mouse listener and tool tip.
+	 */
+	private void setUpDirectoryList()
 	{
 		directoryList.setId("playlist");
 		directoryList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -83,32 +106,45 @@ public final class DirectoryViewer
 		Tooltip playlist_tip = new Tooltip("Media folders added to server. Current number of paths are: "+ApplicationGlobals.getMonitoredList().size()+". Deep Search: "+((ApplicationGlobals.isDeepSearch()) ? "Enabled" : "Disabled"));
 		playlist_tip.setId("tool_tip");
 		Tooltip.install(directoryList, playlist_tip);
-		setUpData();
-		this.setUpColumns();
-		this.addColumnMonitor();
-		gui_scene.setCenter(this.setUpScroller());
 	}
 	
-	public void setUpData()
+	/**
+	 * Attempts to load the monitored directories. If getMonitoredSize from {@link ApplicationGlobals} is zero,
+	 * then a placeholder added. Otherwise each monitored directory is loaded from {@link ApplicationGlobals}.
+	 */
+	public void load()
 	{
 		if(ApplicationGlobals.getMonitoredSize() == 0)
-			setUpNoData();
+			loadNoData();
 		else
-			setUpdatedData();
+			loadData();
 	}
 	
-	private void setUpNoData()
+	/**
+	 * Adds a placeholder to the directory list for when there are no monitored directories. 
+	 */
+	private void loadNoData()
 	{
 		final byte[] no_media_detected = "No folders added".getBytes(), non_applicable = "N/A".getBytes(), non_applicable_int = ByteBuffer.allocate(4).putInt(0).array();
 		directoryList.setItems(FXCollections.observableArrayList(new DirectoryItem(no_media_detected, non_applicable, non_applicable_int)));
 	}
 	
-	private void setUpdatedData()
+	/**
+	 * Adds each monitored directory from its list located within {@link ApplicationGlobals}.
+	 */
+	private void loadData()
 	{
-		directoryList.setItems(createPlaylistData());
+		directoryList.setItems(createMonitoredList());
 	}
 	
-	private ObservableList<DirectoryItem> createPlaylistData()
+	/**
+	 * Creates and returns an observable list. The list is created from a three dimensional byte array that is
+	 * retrieved from {@link ApplicationGlobals} and contains each monitored directory. Inside the array is the
+	 * name, path and index. 
+	 * 
+	 * @return A list filled with the names, paths and indexes of each monitored directory.
+	 */
+	private ObservableList<DirectoryItem> createMonitoredList()
 	{
 		ObservableList<DirectoryItem> media_list = FXCollections.observableArrayList();
 		byte[][][] folder_data = ApplicationGlobals.getFolderVectors();
@@ -122,6 +158,12 @@ public final class DirectoryViewer
 		return media_list;
 	}
 	
+	/**
+	 * Sets up the directory list inside a {@link VBox} and then returns that vbox. The vbox is to be added to a
+	 * parent gui component.
+	 * 
+	 * @return A vbox with the directory list inside. 
+	 */
 	private VBox setUpScroller()
 	{
 		VBox box = new VBox(5);
@@ -130,6 +172,9 @@ public final class DirectoryViewer
 		return box;
 	}
 	
+	/**
+	 * Creates three columns and adds them to the directory list.
+	 */
 	@SuppressWarnings("unchecked")
 	private void setUpColumns()
 	{
@@ -146,11 +191,14 @@ public final class DirectoryViewer
 		// Set up size column.
 		playlist_columns[2] = new PercentageTableColumn<Object, Object>(COLUMN_STRINGS[2]);
 		playlist_columns[2].setMinWidth(50);
-		playlist_columns[2].setCellValueFactory(new PropertyValueFactory<DirectoryItem, Integer>("size"));
+		playlist_columns[2].setCellValueFactory(new PropertyValueFactory<DirectoryItem, Integer>("index"));
 		directoryList.getColumns().addAll(playlist_columns);
-		
 	}
 	
+	/**
+	 * Adds a column listener. Resizes the first column in the directory list once a change has been detected. 
+	 * This ensure that the columns fit the width of the table view.
+	 */
 	private void addColumnMonitor()
 	{
 		directoryList.getColumns().addListener(new ListChangeListener<Object>()
@@ -163,26 +211,41 @@ public final class DirectoryViewer
 		});
 	}
 	
+	/**
+	 * Returns the currently selected paths from {@link ListHandler}. This is used in {@link SettingsMenu}.
+	 * @return
+	 */
 	public String[] selectedPaths()
 	{
 		return ListHandler.paths;
 	}
 	
+	/**
+	 * Resets the currently selected paths from {@link ListHandler} and updates the directory list and the
+	 * {@link Configuration} file.
+	 */
 	public void resetSelectedPaths()
 	{
 		directoryList.getItems().removeAll(ListHandler.selectedItems);
 		reset();
 	}
 	
+	/**
+	 * Clears the entire directory list, updates it and then updates the {@link Configuration} file.
+	 */
 	public void resetAllIndexes()
 	{
 		directoryList.getItems().clear();
 		reset();
 	}
 	
+	/**
+	 * Attempts to update the directory list via load. Nulls the {@link ListHandler}s currently selected paths.
+	 * Finally it updates the {@link Configuration} file.
+	 */
 	private void reset()
 	{
-		setUpData();
+		load();
 		ListHandler.paths = null;
 		new Configuration(true);
 	}
@@ -201,14 +264,14 @@ public final class DirectoryViewer
 	{
 		private SimpleStringProperty name;
 		private SimpleStringProperty path;
-		private SimpleIntegerProperty size;
+		private SimpleIntegerProperty index;
 		
-		public DirectoryItem(byte[] name_bytes, byte[] path_bytes, byte[] size_bytes)
+		public DirectoryItem(byte[] name_bytes, byte[] path_bytes, byte[] index_bytes)
 		{
 			this.setName(new SimpleStringProperty(new String(name_bytes)));
 			this.setPath(new SimpleStringProperty(new String(path_bytes)));
-			ByteBuffer buffer = ByteBuffer.wrap(size_bytes);
-			this.setSize(new SimpleIntegerProperty(buffer.getInt()));
+			ByteBuffer buffer = ByteBuffer.wrap(index_bytes);
+			this.setIndex(new SimpleIntegerProperty(buffer.getInt()));
 		}
 
 		public String getName() 
@@ -241,19 +304,19 @@ public final class DirectoryViewer
 			return this.path;
 		}
 
-		public int getSize()
+		public int getIndex()
 		{
-			return size.get();
+			return index.get();
 		}
 
-		public void setSize(SimpleIntegerProperty size) 
+		public void setIndex(SimpleIntegerProperty index) 
 		{
-			this.size = size;
+			this.index = index;
 		}
 		
-		public IntegerProperty sizeProperty()
+		public IntegerProperty indexProperty()
 		{
-			return this.size;
+			return this.index;
 		}
 	}
 	
