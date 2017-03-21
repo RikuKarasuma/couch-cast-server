@@ -73,7 +73,7 @@ public final class NetViewer
 	
 	private void setUpNoData()
 	{
-		final byte[] no_media_detected = "No interfaces detected. Please install network drivers.".getBytes();
+		final byte[] no_media_detected = "No interfaces detected. Please install network drivers and restart.".getBytes();
 		netList.setItems(FXCollections.observableArrayList(new DirectoryItem(no_media_detected)));
 		NetSelector.setNoNetwork(true);
 	}

@@ -53,6 +53,11 @@ public final class Tray
 	 */
 	private static boolean initialised = false;
 	
+	/**
+	 * Used to prevent spamming of the GUI set up. Supposed to prevent JavaFX lock up.
+	 */
+	private static boolean opening = false;
+	
 	private static AppStage menu = null;
 	
 	/**
@@ -67,9 +72,11 @@ public final class Tray
 		@Override
 		public final void mouseClicked(MouseEvent e) 
 		{
-			if(e.getButton() == MouseEvent.BUTTON1)		
+			if(e.getButton() == MouseEvent.BUTTON1 && opening == false)		
 			{
+				opening = true;
 				menu.setUp();
+				opening = false;
 			}
 		}
 	};

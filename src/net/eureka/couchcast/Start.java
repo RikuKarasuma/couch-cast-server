@@ -7,6 +7,7 @@ import net.eureka.couchcast.foundation.init.Bootstrap;
 import net.eureka.couchcast.foundation.init.NetworkGlobals;
 import net.eureka.couchcast.foundation.logging.Logger;
 import net.eureka.couchcast.gui.AppStage;
+import net.eureka.couchcast.gui.net.Updater;
 import net.eureka.couchcast.gui.tray.Tray;
 import net.eureka.couchcast.mediaserver.NetworkHandler;
 import net.eureka.couchcast.mediaserver.discovery.PeerReceiver;
@@ -91,6 +92,9 @@ public final class Start
 	 */
 	private Start() 
 	{
+		new Updater(Thread.currentThread());
+		
+		
 		if(!Static.is64BitArch())
 			new AppStage(true, false);
 		else

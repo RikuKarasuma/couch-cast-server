@@ -18,13 +18,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 
+import net.eureka.couchcast.foundation.logging.Logger;
+
 /**
  * Contains useful methods that could be common to the whole media server.
  * 
  * @author Owen McMonagle
  *
  *
- * @version 0.2
+ * @version 0.3
  */
 public final class Static 
 {
@@ -199,12 +201,17 @@ public final class Static
 	 */
 	public static InetAddress getInetAddressFromName(String name)
 	{
-		ArrayList<InetAddress> valid_addresses = getInetAddresses();
-		
-		for(int i = 0; i < valid_addresses.size(); i ++)
-			if(INTERFACES.get(i).equals(name))
-				return valid_addresses.get(i);
-		
+		if(!name.isEmpty())
+		{
+			ArrayList<InetAddress> valid_addresses = getInetAddresses();
+			
+			System.out.println("Valid addresses:"+ valid_addresses.size());
+			
+			for(int i = 0; i < valid_addresses.size(); i ++)
+				if(INTERFACES.get(i).equals(name))
+					return valid_addresses.get(i);
+		}
+		Logger.append(new StringBuffer("No net interface found."));
 		return null;
 	}
 	
@@ -221,7 +228,7 @@ public final class Static
 			ArrayList<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
 			
 			for (NetworkInterface net_interface : interfaces) 
-				if(!INTERFACES.contains(net_interface.toString()) && net_interface.isUp() && !net_interface.isVirtual() && !net_interface.isLoopback() && net_interface.supportsMulticast())
+				if(!INTERFACES.contains(net_interface.toString().split(":")[1]) && net_interface.isUp() && !net_interface.isVirtual() && !net_interface.isLoopback() && net_interface.supportsMulticast())
 				{
 					// iterate over the addresses associated with the interface
 					ArrayList<InetAddress> addresses = Collections.list(net_interface.getInetAddresses());
@@ -232,11 +239,11 @@ public final class Static
 						// look only for ipv4 addresses
 						if (!(address instanceof Inet6Address) && address.isReachable(3000))
 						{
-							String name = net_interface.toString();
+							String name = net_interface.toString(), parsed = name.split(":")[1];
 							System.out.format("["+i+"] ni: %s\n", name);
 							valid_addresses.add(address);
 							// Add name to interface name list
-							INTERFACES.add(name.split(":")[1]);
+							INTERFACES.add(parsed);
 							// Make i the size limit to exit loop.
 							i = addresses.size();
 						}

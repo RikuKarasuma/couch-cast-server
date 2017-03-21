@@ -18,6 +18,8 @@ import net.eureka.utils.Systems;
 /**
  * Contains global application variables described below:
  * <pre>
+ *  is 32 bit - Used to determine if this app is 32 bit or not. {@link Updater}
+ * 
  *	Operating system - System the app is running on.
  *
  *	Name* - App name.
@@ -62,10 +64,16 @@ import net.eureka.utils.Systems;
  * @see Bootstrap
  * @see PeerReceiver
  * 
- * @version 0.7
+ * @version 0.8
  */
 public final class ApplicationGlobals 
 {
+	
+	/**
+	 * Used to determine if this is a 32 bit version or not.
+	 */
+	private static final boolean IS_32_BIT = false;
+	
 	/**
 	 * Detects the operating system.
 	 */
@@ -84,7 +92,7 @@ public final class ApplicationGlobals
 	/**
 	 * Version of the program.
 	 */
-	private static final byte[] version = "ver_1.3".getBytes(); 
+	private static final byte[] version = "1.3".getBytes(); 
 	
 	/**
 	 * Application directory. (\<Users>\Android Cast\). This stores the configuration file, server log, SHA key and the default download directory.
@@ -367,5 +375,10 @@ public final class ApplicationGlobals
 	public static void setUpdateDelay(float updateDelay) 
 	{
 		ApplicationGlobals.updateDelay = (int) updateDelay;
+	}
+	
+	public static boolean is32Bit()
+	{
+		return IS_32_BIT;
 	}
 }

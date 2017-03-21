@@ -2,6 +2,8 @@ package net.eureka.couchcast.gui.net;
 
 
 
+import java.net.InetAddress;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,7 +33,7 @@ import net.eureka.couchcast.gui.control.handlers.MoveHandler;
  * @see NetViewer
  * @see NetworkGlobals
  * 
- * @version 0.1
+ * @version 0.3
  */
 public final class NetSelector extends Scene 
 { 
@@ -54,14 +56,15 @@ public final class NetSelector extends Scene
 		@Override
 		public final void handle(ActionEvent e) 
 		{
-			if(!noNetwork)
+			InetAddress selected_network_address = viewer.getSelectedNetwork();
+			String selected_network_address_name = viewer.getNetworkName();
+			
+			if(!noNetwork && !selected_network_address_name.isEmpty())
 			{
-				NetworkGlobals.setDhcpNetwork(viewer.getSelectedNetwork(), viewer.getNetworkName());
+				NetworkGlobals.setDhcpNetwork(selected_network_address, viewer.getNetworkName());
 				Start.startNetworking();
 				parent.createMainMenu();
 			}
-			else
-				System.exit(0);
 		}
 	};
 	
@@ -82,7 +85,7 @@ public final class NetSelector extends Scene
 	public NetSelector(Stage parent_stage, AppStage parent_container)
 	{
 		super(new StackPane());
-		this.getStylesheets().add(getClass().getResource("../application.css").toExternalForm());
+		this.getStylesheets().add(AppStage.class.getResource("application.css").toExternalForm());
 		this.parent = parent_container;
 		this.root = (StackPane) this.getRoot();
 		this.root.getChildren().add(this.background);
