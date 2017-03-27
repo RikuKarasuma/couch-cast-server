@@ -47,7 +47,8 @@ import net.eureka.couchcast.mediaserver.NetworkHandler;
  */
 public final class DirectoryFactory extends Thread
 {
-	private static final int WORKER_POOL_SIZE = Runtime.getRuntime().availableProcessors()-1, SCHEDULED_WORKER_SIZE = 1;
+	private static final int PROCESSORS = Runtime.getRuntime().availableProcessors();
+	private static final int WORKER_POOL_SIZE = (PROCESSORS > 1) ? PROCESSORS - 1: PROCESSORS , SCHEDULED_WORKER_SIZE = 1;
 	
 	
 	/**

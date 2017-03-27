@@ -45,7 +45,7 @@ import net.eureka.couchcast.mediaserver.playlist.PlaylistWorker;
 public final class NetworkHandler implements Runnable
 {
 	private static final int PORT = 63050, //0xf64a
-								CONNECTION_BACKLOG_LIMIT = 100; // 0x64
+								CONNECTION_BACKLOG_LIMIT = 30; // 0x1e
 	
 	/**
 	 * Byte code actions. Each byte code represents a path that a TCP connection will take.

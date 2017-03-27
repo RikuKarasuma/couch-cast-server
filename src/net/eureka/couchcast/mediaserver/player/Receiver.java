@@ -77,6 +77,16 @@ public final class Receiver extends NetworkWorker
 	 */
 	private static final int BUFFER_SIZE = 2;
 	
+	/**
+	 * Port to OOP Player.
+	 */
+	private static final int OOP_PORT = 63051;
+	
+	/**
+	 * OOP connection timeout.
+	 */
+	private static final int OOP_TIMEOUT = 5000;
+	
 	private static long timeSincePlayed = 0; 
 	
 	//private static int playCount = 0;
@@ -528,10 +538,9 @@ public final class Receiver extends NetworkWorker
 	
 	private static void startOOPConection() throws UnknownHostException, IOException
 	{
-		final InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost(), 63053);
-		final int timeout = 5000;
+		final InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost(), OOP_PORT);
 		bridgeConnection = new Socket();
-		bridgeConnection.connect(address, timeout);
+		bridgeConnection.connect(address, OOP_TIMEOUT);
         bridgeOutput = new ObjectOutputStream(bridgeConnection.getOutputStream());
         bridgeInput = new ObjectInputStream(bridgeConnection.getInputStream());
 	}

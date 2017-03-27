@@ -14,6 +14,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import net.eureka.couchcast.Static;
 import net.eureka.couchcast.foundation.file.manager.DirectoryFactory;
 import net.eureka.couchcast.gui.control.WindowControl;
 import net.eureka.couchcast.gui.control.handlers.DoubleClickSizeHandler;
@@ -22,6 +23,8 @@ import net.eureka.couchcast.gui.playlist.PlaylistViewer;
 
 public final class MainMenu extends Scene
 {
+	private final String HELP_LINK = "http://www.couchcastapp.com/#how-it-works";
+	
 	private PlaylistViewer viewer = null;
 	
 	private final EventHandler<ActionEvent> LOAD_LISTENER = new EventHandler<ActionEvent>()
@@ -34,10 +37,16 @@ public final class MainMenu extends Scene
 			File choosen_dir = monitored_chooser.showDialog(null);
 			if(choosen_dir != null)
 				DirectoryFactory.addNewScanner(choosen_dir.getAbsolutePath());
-			//new DirectoryScanner(choosen_dir.getAbsolutePath(), true);
 		}
-		
-		
+	};
+	
+	private final EventHandler<ActionEvent> HELP_LISTENER = new EventHandler<ActionEvent>()
+	{
+		@Override
+		public final void handle(ActionEvent e) 
+		{
+			Static.openWebpage(HELP_LINK);
+		}
 	};
 	
 	private final EventHandler<ActionEvent> SHUTDOWN_LISTENER = new EventHandler<ActionEvent>()
@@ -60,10 +69,7 @@ public final class MainMenu extends Scene
 	
 	private StackPane root = null;
 	private BorderPane background = new BorderPane();
-	
 	private AppStage parent = null;
-	
-	//private final Image image = new Image(getClass().getResourceAsStream("image/logo_text_huge.png"));
 	
 	private final Button settingsButton = new Button("Settings"),
 								helpButton = new Button("Help"),
@@ -109,6 +115,7 @@ public final class MainMenu extends Scene
 		settingsButton.setOnAction(SETTINGS_LISTENER);
 		helpButton.setId("default_button");
 		helpButton.setPrefSize(125, 40);
+		helpButton.setOnAction(HELP_LISTENER);
 		loadButton.setId("default_button");
 		loadButton.setPrefSize(125, 40);
 		loadButton.setOnAction(LOAD_LISTENER);
